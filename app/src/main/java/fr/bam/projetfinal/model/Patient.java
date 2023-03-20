@@ -11,6 +11,10 @@ public class Patient extends User{
         super();
     }
 
+    public Patient(String firstName, String lastName, String address, String email, byte[] photo) {
+        super(firstName, lastName, address, email, photo);
+    }
+
     public Doctor getDoctor() {
         return mDoctor;
     }
