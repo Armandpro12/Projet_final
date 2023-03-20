@@ -15,6 +15,11 @@ public class Doctor extends User{
         this.mPatients = new ArrayList<>();
     }
 
+    public Doctor(String firstName, String lastName, String address, String email, byte[] photo, List<Patient> patients) {
+        super(firstName, lastName, address, email, photo);
+        mPatients = patients;
+    }
+
     public void addPatient(Patient patient){
         mPatients.add(patient);
     }
