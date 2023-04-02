@@ -10,6 +10,11 @@ public class Doctor extends User{
         this.mPatients = new ArrayList<>();
     }
 
+    public Doctor(int id, String firstName, String lastName, String address, String email, byte[] photo) {
+        super(id, firstName, lastName, address, email, photo);
+        this.mPatients = new ArrayList<>();
+    }
+
     public Doctor() {
         super();
         this.mPatients = new ArrayList<>();

@@ -1,5 +1,7 @@
 package fr.bam.projetfinal.model;
 
+import java.util.List;
+
 public abstract class User {
     private String mFirstName;
     private String mLastName;
@@ -7,12 +9,25 @@ public abstract class User {
     private String mEmail;
     private byte[] mPhoto;
 
+    public static int id = 0;
+
+
     public User(String firstName, String lastName, String address, String email, byte[] photo) {
         mFirstName = firstName;
         mLastName = lastName;
         mAddress = address;
         mEmail = email;
         mPhoto = photo;
+        id += 1;
+    }
+
+    public User(int id, String firstName, String lastName, String address, String email, byte[] photo) {
+        mFirstName = firstName;
+        mLastName = lastName;
+        mAddress = address;
+        mEmail = email;
+        mPhoto = photo;
+        this.id = id;
     }
 
     public User() {
@@ -61,5 +76,9 @@ public abstract class User {
 
     public void setPhoto(byte[] photo) {
         mPhoto = photo;
+    }
+
+    public int getId() {
+        return id;
     }
 }
