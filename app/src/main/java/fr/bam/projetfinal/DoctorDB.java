@@ -9,10 +9,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import fr.bam.projetfinal.model.Doctor;
+import fr.bam.projetfinal.model.Dosage;
 import fr.bam.projetfinal.model.Medication;
 import fr.bam.projetfinal.model.Patient;
 
@@ -124,6 +127,32 @@ public class DoctorDB extends SQLiteOpenHelper {
 
     }
 
+    public void addDosage(Dosage dosage){
+        Log.i(TAG, "MyDatabaseHelper.addProfile ... " + dosage.toString());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, dosage.getId());
+        values.put(COLUMN_FOREIGN_PATIENT_ID, dosage.getPatient().getId());
+        values.put(COLUMN_FOREIGN_MEDICATION_ID, dosage.getMedication().getId());
+        values.put(COLUMN_DOSAGE, dosage.getQuantity());
+
+        db.insert(TABLE_DOSAGE, null, values);
+    }
+
+    public void addDate(Dosage dosage){
+        Log.i(TAG, "MyDatabaseHelper.addProfile ... " + dosage.toString());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, dosage.getId());
+        values.put(COLUMN_DATE, dosage.getDate());
+        values.put(COLUMN_TAKEN, dosage.isTaken());
+        values.put(COLUMN_FOREIGN_DOSAGE_ID, dosage.getId());
+
+        db.insert(TABLE_DOSAGE, null, values);
+    }
+
     public void addPatient(Patient patient) {
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + patient.getFirstName());
 
@@ -160,6 +189,73 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)));
         // return profile
         return patient;
+    }
+
+    public Medication getMedication(int id){
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_MEDICATION, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_PHOTO}, COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Medication medication = new Medication(cursor.getInt(0), cursor.getString(1),
+                cursor.getString(2), cursor.getBlob(5));
+        // return profile
+        return medication;
+    }
+
+    public Dosage getDosage(int id){
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DOSAGE, new String[]{COLUMN_ID, COLUMN_FOREIGN_PATIENT_ID, COLUMN_FOREIGN_MEDICATION_ID, COLUMN_DOSAGE}, COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        int dosageId = cursor.getInt(0);
+        Dosage dosage = new Dosage(
+                dosageId,
+                getPatient(cursor.getInt(1)),
+                getMedication(cursor.getInt(2)),
+                getDate(dosageId),
+                cursor.getString(3),
+                getTaken(dosageId)
+        );
+        // return profile
+        return dosage;
+    }
+
+    public String getDate(int idDosage){
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DOSAGE, new String[]{COLUMN_ID, COLUMN_DATE, COLUMN_TAKEN, COLUMN_FOREIGN_DOSAGE_ID}, COLUMN_FOREIGN_DOSAGE_ID + "=?",
+                new String[]{String.valueOf(idDosage)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+
+        return cursor.getString(1);
+    }
+
+    public boolean getTaken(int idDosage){
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DOSAGE, new String[]{COLUMN_ID, COLUMN_DATE, COLUMN_TAKEN, COLUMN_FOREIGN_DOSAGE_ID}, COLUMN_FOREIGN_DOSAGE_ID + "=?",
+                new String[]{String.valueOf(idDosage)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+
+        return cursor.getInt(1) > 0;
     }
 
 
@@ -255,5 +351,8 @@ public class DoctorDB extends SQLiteOpenHelper {
         // return count
         return count;
     }
+
+
+
 
 }
