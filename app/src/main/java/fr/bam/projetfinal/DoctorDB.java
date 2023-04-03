@@ -185,8 +185,9 @@ public class DoctorDB extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Patient patient = new Patient(cursor.getInt(0), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)));
+        int idPatient = cursor.getInt(0);
+        Patient patient = new Patient(idPatient, cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)), getAllDosages(idPatient));
         // return profile
         return patient;
     }
@@ -233,29 +234,31 @@ public class DoctorDB extends SQLiteOpenHelper {
     public String getDate(int idDosage){
         Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT "+COLUMN_DATE+" FROM " + TABLE_DATE + " WHERE "+COLUMN_FOREIGN_DOSAGE_ID+" = "+idDosage;
 
-        Cursor cursor = db.query(TABLE_DOSAGE, new String[]{COLUMN_ID, COLUMN_DATE, COLUMN_TAKEN, COLUMN_FOREIGN_DOSAGE_ID}, COLUMN_FOREIGN_DOSAGE_ID + "=?",
-                new String[]{String.valueOf(idDosage)}, null, null, null, null);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
         if (cursor != null)
             cursor.moveToFirst();
 
 
-        return cursor.getString(1);
+        return cursor.getString(0);
     }
 
     public boolean getTaken(int idDosage){
         Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT "+COLUMN_TAKEN+" FROM " + TABLE_DATE + " WHERE "+COLUMN_FOREIGN_DOSAGE_ID+" = "+idDosage;
 
-        Cursor cursor = db.query(TABLE_DOSAGE, new String[]{COLUMN_ID, COLUMN_DATE, COLUMN_TAKEN, COLUMN_FOREIGN_DOSAGE_ID}, COLUMN_FOREIGN_DOSAGE_ID + "=?",
-                new String[]{String.valueOf(idDosage)}, null, null, null, null);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
         if (cursor != null)
             cursor.moveToFirst();
 
 
-        return cursor.getInt(1) > 0;
+        return cursor.getInt(0) > 0;
     }
 
 
@@ -289,7 +292,8 @@ public class DoctorDB extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Patient patient = new Patient(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)));
+                int idPatient = cursor.getInt(0);
+                Patient patient = new Patient(idPatient, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)), getAllDosages(idPatient));
                 // Adding profile to list
                 patientList.add(patient);
 
@@ -337,7 +341,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         return count;
     }
 
-    public int getPatientCount() {
+    public int getPatientsCount() {
         Log.i(TAG, "MyDatabaseHelper.getProfilesCount ... " );
 
         String countQuery = "SELECT  * FROM " + TABLE_PATIENT;
@@ -350,6 +354,56 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         // return count
         return count;
+    }
+
+    public List<Medication> getAllMedications(){
+        Log.i(TAG, "MyDatabaseHelper.getAllProfiles ... ");
+
+        List<Medication>  medicationList = new ArrayList<Medication>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MEDICATION;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Medication medication = new Medication(cursor.getInt(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getBlob(5));
+                medicationList.add(medication);
+
+
+            } while (cursor.moveToNext());
+        }
+        return medicationList;
+    }
+
+    public List<Dosage> getAllDosages(int idPatient){
+        List<Dosage>  dosageList = new ArrayList<Dosage>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_DOSAGE + " WHERE " + COLUMN_FOREIGN_PATIENT_ID + " = " + idPatient;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int dosageId = cursor.getInt(0);
+                Dosage dosage = new Dosage(
+                        dosageId,
+                        getPatient(cursor.getInt(1)),
+                        getMedication(cursor.getInt(2)),
+                        getDate(dosageId),
+                        cursor.getString(3),
+                        getTaken(dosageId)
+                );
+                dosageList.add(dosage);
+
+
+            } while (cursor.moveToNext());
+        }
+        return dosageList;
     }
 
 
