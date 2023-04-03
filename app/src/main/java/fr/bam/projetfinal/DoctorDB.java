@@ -124,9 +124,14 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_PHOTO, medication.getPhoto());
 
         db.insert(TABLE_MEDICATION, null, values);
+        db.close();
 
     }
 
+    /**
+     * add the wanted dosage and the date in the bd
+     * @param dosage
+     */
     public void addDosage(Dosage dosage){
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + dosage.toString());
         SQLiteDatabase db = this.getWritableDatabase();
@@ -138,6 +143,8 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_DOSAGE, dosage.getQuantity());
 
         db.insert(TABLE_DOSAGE, null, values);
+        db.close();
+        addDate(dosage);
     }
 
     public void addDate(Dosage dosage){
@@ -151,8 +158,13 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_FOREIGN_DOSAGE_ID, dosage.getId());
 
         db.insert(TABLE_DOSAGE, null, values);
+        db.close();
     }
 
+    /**
+     * add the wanted patient and the list of dosage in the bd
+     * @param patient
+     */
     public void addPatient(Patient patient) {
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + patient.getFirstName());
 
@@ -172,6 +184,10 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         // Closing database connection
         db.close();
+        List<Dosage> dosages = new ArrayList<>();
+        for(Dosage dosage : dosages){
+            addDosage(dosage);
+        }
     }
 
     public Patient getPatient(int id) {
