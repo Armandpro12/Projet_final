@@ -37,10 +37,15 @@ public class DoctorDB extends SQLiteOpenHelper {
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PHOTO = "photo";
 
-    private static final String TABLE_CONNECT_PATIENT_MEDICATION = "patient_medication";
+    private static final String TABLE_DOSAGE = "dosage";
     private static final String COLUMN_FOREIGN_MEDICATION_ID = "medication_id";
 
     private static final String COLUMN_DOSAGE = "dosage";
+
+    private static final String TABLE_DATE = "date";
+    private static final String COLUMN_FOREIGN_DOSAGE_ID = "dosage_id";
+    private static final String COLUMN_DATE = "date";
+    private static final String COLUMN_TAKEN = "taken";
 
 
 
@@ -60,7 +65,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         String scriptPatient = "CREATE TABLE " + TABLE_PATIENT + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FIRSTNAME + " TEXT,"
-                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PHOTO + " BLOB,"  + COLUMN_FOREIGN_DOCTOR_ID + " INTEGER," +  "FOREIGN KEY("+COLUMN_ID+") REFERENCES "+TABLE_DOCTOR+"("+COLUMN_ID+")" + ")";
+                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PHOTO + " BLOB,"  + COLUMN_FOREIGN_DOCTOR_ID + " INTEGER," +  "FOREIGN KEY("+COLUMN_FOREIGN_DOCTOR_ID+") REFERENCES "+TABLE_DOCTOR+"("+COLUMN_ID+")" + ")";
         // Execute Script.
         db.execSQL(scriptPatient);
 
@@ -68,9 +73,13 @@ public class DoctorDB extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_NAME + " TEXT," + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PHOTO + " BLOB" + ")";
         db.execSQL(scriptMedication);
 
-        String scriptConnectPatientMedication = "CREATE TABLE " + TABLE_CONNECT_PATIENT_MEDICATION + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FOREIGN_PATIENT_ID + " INTEGER," + COLUMN_FOREIGN_MEDICATION_ID + " INTEGER," + COLUMN_DOSAGE + " TEXT" + ")";
-        db.execSQL(scriptConnectPatientMedication);
+        String scriptDosage = "CREATE TABLE " + TABLE_DOSAGE + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FOREIGN_PATIENT_ID + " INTEGER," + COLUMN_FOREIGN_MEDICATION_ID + " INTEGER," + COLUMN_DOSAGE + " TEXT," + "FOREIGN KEY("+COLUMN_FOREIGN_PATIENT_ID+") REFERENCES "+TABLE_PATIENT+"("+COLUMN_ID+"),"+"FOREIGN KEY("+COLUMN_FOREIGN_MEDICATION_ID+") REFERENCES "+TABLE_MEDICATION+"("+COLUMN_ID+")"+")";
+        db.execSQL(scriptDosage);
+
+        String scriptDate = "CREATE TABLE " + TABLE_DATE + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_DATE + " DATE," + COLUMN_TAKEN + " BIT," + COLUMN_FOREIGN_DOSAGE_ID + " INTEGER," + "FOREIGN KEY("+ COLUMN_FOREIGN_DOSAGE_ID +") REFERENCES " + TABLE_DOSAGE + "("+COLUMN_ID+")"+")";
+        db.execSQL(scriptDate);
 
     }
 
