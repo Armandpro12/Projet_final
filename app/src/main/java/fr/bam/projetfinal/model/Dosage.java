@@ -1,45 +1,37 @@
 package fr.bam.projetfinal.model;
 
+import java.util.List;
+
 /**
  * the date is a String in this format : "yyyy-MM-dd"
  */
 public class Dosage {
     private Patient mPatient;
     private Medication mMedication;
-    private String mDate;
+    private List<Date> mDates;
     private String mQuantity;
 
-    private boolean mIsTaken;
 
     public static int id = 0;
 
 
-    public Dosage(Patient patient, Medication medication, String date, String quantity, boolean isTaken) {
+    public Dosage(Patient patient, Medication medication, List<Date> dates, String quantity) {
         mPatient = patient;
         mMedication = medication;
-        mDate = date;
+        mDates = dates;
         mQuantity = quantity;
-        mIsTaken = isTaken;
         id++;
     }
 
-    public Dosage(int id, Patient patient, Medication medication, String date, String quantity, boolean isTaken) {
+    public Dosage(int id, Patient patient, Medication medication, List<Date> dates, String quantity) {
         mPatient = patient;
         mMedication = medication;
-        mDate = date;
+        mDates = dates;
         mQuantity = quantity;
-        mIsTaken = isTaken;
         this.id = id;
     }
 
 
-    public boolean isTaken() {
-        return mIsTaken;
-    }
-
-    public void setTaken(boolean taken) {
-        mIsTaken = taken;
-    }
 
     public static int getId() {
         return id;
@@ -61,12 +53,12 @@ public class Dosage {
         mMedication = medication;
     }
 
-    public String getDate() {
-        return mDate;
+    public List<Date> getDates() {
+        return mDates;
     }
 
-    public void setDate(String date) {
-        mDate = date;
+    public void setDates(List<Date> dates) {
+        mDates = dates;
     }
 
     public String getQuantity() {
