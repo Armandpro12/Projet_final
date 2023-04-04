@@ -268,22 +268,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         return date;
     }
 
-    public boolean getTaken(int idDosage){
-        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
-
-        String selectQuery = "SELECT "+COLUMN_TAKEN+" FROM " + TABLE_DATE + " WHERE "+COLUMN_FOREIGN_DOSAGE_ID+" = "+idDosage;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor != null)
-            cursor.moveToFirst();
-
-
-        return cursor.getInt(0) > 0;
-    }
-
-
     public Doctor getDoctor(int id) {
         Log.i(TAG, "MyDatabaseHelper.getProfile ... " + id);
 
@@ -430,7 +414,7 @@ public class DoctorDB extends SQLiteOpenHelper {
     public List<Date> getAllDates(int idDosage){
         List<Date>  dateList = new ArrayList<Date>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_DOSAGE + " WHERE " + COLUMN_FOREIGN_PATIENT_ID + " = " + idDosage;
+        String selectQuery = "SELECT  * FROM " + TABLE_DATE + " WHERE " + COLUMN_FOREIGN_DOSAGE_ID + " = " + idDosage;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
