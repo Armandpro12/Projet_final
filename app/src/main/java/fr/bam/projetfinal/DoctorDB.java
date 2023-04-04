@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.bam.projetfinal.model.Date;
 import fr.bam.projetfinal.model.Doctor;
 import fr.bam.projetfinal.model.Dosage;
 import fr.bam.projetfinal.model.Medication;
@@ -144,20 +145,22 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         db.insert(TABLE_DOSAGE, null, values);
         db.close();
-        addDate(dosage);
+        for(Date date : dosage.getDates()){
+            addDate(dosage, date);
+        }
     }
 
-    public void addDate(Dosage dosage){
-        Log.i(TAG, "MyDatabaseHelper.addProfile ... " + dosage.toString());
+    public void addDate(Dosage dosage, Date date){
+        Log.i(TAG, "MyDatabaseHelper.addProfile ... " + date.toString());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, dosage.getId());
-        values.put(COLUMN_DATE, dosage.getDate());
-        values.put(COLUMN_TAKEN, dosage.isTaken());
+        values.put(COLUMN_ID, date.getId());
+        values.put(COLUMN_DATE, date.getDate());
+        values.put(COLUMN_TAKEN, date.isTaken());
         values.put(COLUMN_FOREIGN_DOSAGE_ID, dosage.getId());
 
-        db.insert(TABLE_DOSAGE, null, values);
+        db.insert(TABLE_DATE, null, values);
         db.close();
     }
 
@@ -239,27 +242,30 @@ public class DoctorDB extends SQLiteOpenHelper {
                 dosageId,
                 getPatient(cursor.getInt(1)),
                 getMedication(cursor.getInt(2)),
-                getDate(dosageId),
-                cursor.getString(3),
-                getTaken(dosageId)
+                getAllDates(dosageId),
+                cursor.getString(3)
         );
         // return profile
         return dosage;
     }
 
-    public String getDate(int idDosage){
-        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + idDosage);
+    public Date getDate(int id){
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + id);
 
-        String selectQuery = "SELECT "+COLUMN_DATE+" FROM " + TABLE_DATE + " WHERE "+COLUMN_FOREIGN_DOSAGE_ID+" = "+idDosage;
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
+    Cursor cursor = db.query(TABLE_DATE, new String[]{COLUMN_ID, COLUMN_DATE, COLUMN_TAKEN, COLUMN_FOREIGN_DOSAGE_ID}, COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-
-        return cursor.getString(0);
+        Date date = new Date(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getInt(2) > 0
+        );
+        // return profile
+        return date;
     }
 
     public boolean getTaken(int idDosage){
@@ -410,9 +416,8 @@ public class DoctorDB extends SQLiteOpenHelper {
                         dosageId,
                         getPatient(cursor.getInt(1)),
                         getMedication(cursor.getInt(2)),
-                        getDate(dosageId),
-                        cursor.getString(3),
-                        getTaken(dosageId)
+                        getAllDates(dosageId),
+                        cursor.getString(3)
                 );
                 dosageList.add(dosage);
 
@@ -420,6 +425,29 @@ public class DoctorDB extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return dosageList;
+    }
+
+    public List<Date> getAllDates(int idDosage){
+        List<Date>  dateList = new ArrayList<Date>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_DOSAGE + " WHERE " + COLUMN_FOREIGN_PATIENT_ID + " = " + idDosage;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Date date = new Date(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getInt(2) > 1
+                );
+                dateList.add(date);
+
+
+            } while (cursor.moveToNext());
+        }
+        return dateList;
     }
 
 
