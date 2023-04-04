@@ -12,7 +12,7 @@ public class Dosage {
     private String mQuantity;
 
 
-    public static int id = 0;
+    public static int id;
 
 
     public Dosage(Patient patient, Medication medication, List<Date> dates, String quantity) {
@@ -20,7 +20,6 @@ public class Dosage {
         mMedication = medication;
         mDates = dates;
         mQuantity = quantity;
-        id++;
     }
 
     public Dosage(int id, Patient patient, Medication medication, List<Date> dates, String quantity) {

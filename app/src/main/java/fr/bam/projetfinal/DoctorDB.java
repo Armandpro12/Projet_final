@@ -118,7 +118,6 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + medication.getName());
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, medication.getName());
         values.put(COLUMN_DESCRIPTION, medication.getDescription());
@@ -136,7 +135,6 @@ public class DoctorDB extends SQLiteOpenHelper {
     public void addDosage(Dosage dosage){
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + dosage.toString());
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_FOREIGN_PATIENT_ID, dosage.getPatient().getId());
         values.put(COLUMN_FOREIGN_MEDICATION_ID, dosage.getMedication().getId());
@@ -152,7 +150,6 @@ public class DoctorDB extends SQLiteOpenHelper {
     public void addDate(Dosage dosage, Date date){
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + date.toString());
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, date.getDate());
         values.put(COLUMN_TAKEN, date.isTaken());
@@ -170,7 +167,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + patient.getFirstName());
 
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_FIRSTNAME, patient.getFirstName());
         values.put(COLUMN_LASTNAME, patient.getLastName());
