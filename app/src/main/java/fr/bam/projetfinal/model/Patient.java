@@ -8,14 +8,14 @@ public class Patient extends User{
     private Doctor mDoctor;
     private List<Dosage> mDosages;
 
-    public Patient(String firstName, String lastName, String address, String email, byte[] photo, Doctor doctor, List<Dosage> dosages) {
-        super(firstName, lastName, address, email, photo);
+    public Patient(String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor, List<Dosage> dosages) {
+        super(firstName, lastName, address, email, password, photo);
         mDoctor = doctor;
         mDosages = dosages;
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, byte[] photo, Doctor doctor, List<Dosage> dosages) {
-        super(id, firstName, lastName, address, email, photo);
+    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor, List<Dosage> dosages) {
+        super(id, firstName, lastName, address, email, password, photo);
         mDoctor = doctor;
         mDosages = dosages;
     }
@@ -24,13 +24,13 @@ public class Patient extends User{
         super();
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, byte[] photo, Doctor doctor) {
-        super(id, firstName, lastName, address, email, photo);
+    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
+        super(id, firstName, lastName, address, email, password, photo);
         mDoctor = doctor;
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, byte[] photo) {
-        super(id, firstName, lastName, address, email, photo);
+    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo) {
+        super(id, firstName, lastName, address, email, password, photo);
         mDoctor = new Doctor();
     }
     public Doctor getDoctor() {
