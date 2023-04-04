@@ -1,5 +1,6 @@
 package fr.bam.projetfinal.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class User {
@@ -7,35 +8,49 @@ public abstract class User {
     private String mLastName;
     private String mAddress;
     private String mEmail;
+    private String mPassword;
     private byte[] mPhoto;
 
     public static int id = 0;
 
 
-    public User(String firstName, String lastName, String address, String email, byte[] photo) {
+    public User(String firstName, String lastName, String address, String email, String password, byte[] photo) {
         mFirstName = firstName;
         mLastName = lastName;
         mAddress = address;
         mEmail = email;
+        mPassword = password;
         mPhoto = photo;
         id += 1;
     }
 
-    public User(int id, String firstName, String lastName, String address, String email, byte[] photo) {
+    public User(int id, String firstName, String lastName, String address, String email, String password, byte[] photo) {
         mFirstName = firstName;
         mLastName = lastName;
         mAddress = address;
         mEmail = email;
+        mPassword = password;
         mPhoto = photo;
         this.id = id;
     }
 
+    public User(String firstName, String lastName, String address, String email, String password) {
+        mFirstName = firstName;
+        mLastName = lastName;
+        mAddress = address;
+        mEmail = email;
+        mPassword = password;
+        mPhoto = new byte[0];
+        this.id = id;
+    }
+
     public User() {
-        String firstName = "";
-        String lastName = "";
-        String address = "";
-        String email = "";
-        byte[] photo = new byte[0];
+        mFirstName = "";
+        mLastName = "";
+        mAddress = "";
+        mEmail = "";
+        mPassword = "";
+        mPhoto = new byte[0];
     }
 
     public String getFirstName() {
@@ -80,5 +95,25 @@ public abstract class User {
 
     public int getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "mFirstName='" + mFirstName + '\'' +
+                ", mLastName='" + mLastName + '\'' +
+                ", mAddress='" + mAddress + '\'' +
+                ", mEmail='" + mEmail + '\'' +
+                ", mPassword='" + mPassword + '\'' +
+                ", mPhoto=" + Arrays.toString(mPhoto) +
+                '}';
     }
 }

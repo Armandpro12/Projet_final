@@ -50,6 +50,7 @@ public class DoctorDB extends SQLiteOpenHelper {
     private static final String COLUMN_FOREIGN_DOSAGE_ID = "dosage_id";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_TAKEN = "taken";
+    private static final String COLUMN_PASSWORD = "password";
 
 
 
@@ -63,13 +64,13 @@ public class DoctorDB extends SQLiteOpenHelper {
         // Script.
         String scriptDoctor = "CREATE TABLE " + TABLE_DOCTOR + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FIRSTNAME + " TEXT,"
-                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PHOTO + " BLOB"  + ")";
+                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PASSWORD + " TEXT," + COLUMN_PHOTO + " BLOB"  + ")";
         // Execute Script.
         db.execSQL(scriptDoctor);
 
         String scriptPatient = "CREATE TABLE " + TABLE_PATIENT + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FIRSTNAME + " TEXT,"
-                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PHOTO + " BLOB,"  + COLUMN_FOREIGN_DOCTOR_ID + " INTEGER," +  "FOREIGN KEY("+COLUMN_FOREIGN_DOCTOR_ID+") REFERENCES "+TABLE_DOCTOR+"("+COLUMN_ID+")" + ")";
+                + COLUMN_LASTNAME + " TEXT," + COLUMN_ADDRESS + " TEXT," + COLUMN_EMAIL + " TEXT," + COLUMN_PASSWORD + " TEXT," + COLUMN_PHOTO + " BLOB,"  + COLUMN_FOREIGN_DOCTOR_ID + " INTEGER," +  "FOREIGN KEY("+COLUMN_FOREIGN_DOCTOR_ID+") REFERENCES "+TABLE_DOCTOR+"("+COLUMN_ID+")" + ")";
         // Execute Script.
         db.execSQL(scriptPatient);
 
@@ -104,6 +105,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_LASTNAME, doctor.getLastName());
         values.put(COLUMN_ADDRESS, doctor.getAddress());
         values.put(COLUMN_EMAIL, doctor.getEmail());
+        values.put(COLUMN_PASSWORD, doctor.getPassword());
         values.put(COLUMN_PHOTO, doctor.getPhoto());
 
         // Inserting Row
@@ -179,6 +181,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_LASTNAME, patient.getLastName());
         values.put(COLUMN_ADDRESS, patient.getAddress());
         values.put(COLUMN_EMAIL, patient.getEmail());
+        values.put(COLUMN_PASSWORD, patient.getPassword());
         values.put(COLUMN_PHOTO, patient.getPhoto());
         values.put(COLUMN_FOREIGN_DOCTOR_ID, patient.getDoctor().getId());
 
@@ -199,14 +202,14 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PATIENT, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
-                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PHOTO, COLUMN_FOREIGN_DOCTOR_ID}, COLUMN_ID + "=?",
+                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHOTO, COLUMN_FOREIGN_DOCTOR_ID}, COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         int idPatient = cursor.getInt(0);
-        Patient patient = new Patient(idPatient, cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)), getAllDosages(idPatient));
+        Patient patient = new Patient(id, cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
         // return profile
         return patient;
     }
@@ -274,13 +277,13 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_DOCTOR, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
-                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PHOTO}, COLUMN_ID + "=?",
+                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHOTO}, COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         Doctor doctor = new Doctor(cursor.getInt(0), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5));
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6));
         // return profile
         return doctor;
     }
@@ -299,7 +302,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int idPatient = cursor.getInt(0);
-                Patient patient = new Patient(idPatient, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5), getDoctor(cursor.getInt(6)), getAllDosages(idPatient));
+                Patient patient = new Patient(idPatient, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
                 // Adding profile to list
                 patientList.add(patient);
 
@@ -322,7 +325,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Doctor doctor = new Doctor(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getBlob(5));
+                Doctor doctor = new Doctor(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6));
                 // Adding profile to list
                 doctorList.add(doctor);
 
