@@ -2,21 +2,28 @@ package fr.bam.projetfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mUsernameInput;
     private EditText mPasswordInput;
     private Button mLoginButton;
+
+    private CheckBox mIsDoctorCheckBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mIsDoctorCheckBox = findViewById(R.id.login_isDoctor_checkbox);
         mUsernameInput = findViewById(R.id.login_username_edittext);
         mPasswordInput = findViewById(R.id.login_password_edittext);
         mLoginButton = findViewById(R.id.login_login_button);
@@ -30,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkFields();
             }
 
             @Override
@@ -46,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                checkFields();
             }
 
             @Override
@@ -54,6 +62,30 @@ public class LoginActivity extends AppCompatActivity {
                 checkFields();
             }
         });
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DoctorDB doctorDB = new DoctorDB(LoginActivity.this);
+                if(mIsDoctorCheckBox.isChecked()){
+                    try{
+                        doctorDB.getDoctor(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                    }catch(Exception e){
+                        System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
+                        Toast.makeText(LoginActivity.this,"Doctor does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    try{
+                        doctorDB.getPatient(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                    }catch(Exception e){
+                        System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
+                        Toast.makeText(LoginActivity.this,"Patient does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                doctorDB.close();
+            }
+        });
+
     }
 
     private void checkFields() {

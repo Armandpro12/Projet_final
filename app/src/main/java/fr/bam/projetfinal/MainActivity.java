@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void createDefault(){
         DoctorDB doctorDB = new DoctorDB(this);
-        Doctor doctor = new Doctor("123FTest", "456LTest", "3094423ATest", "930423@test.com", "AAAA");
+        Doctor doctor = new Doctor("Doctor1", "456LTest", "3094423ATest", "930423@test.com", "1234");
         try{
-            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getId()).toString());
+            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getFirstName(), doctor.getPassword()).toString());
         } catch (Exception e){
             System.out.println("_____EXCEPTION DON't EXIST_______________");
             doctorDB.addDoctor(doctor);
-            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getId()).toString());
+            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getFirstName(), doctor.getPassword()).toString());
+            System.out.println("________EXCEPTION__________\n" + e);
         }
 
 

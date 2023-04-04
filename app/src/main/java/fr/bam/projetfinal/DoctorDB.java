@@ -100,7 +100,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, doctor.getId());
         values.put(COLUMN_FIRSTNAME, doctor.getFirstName());
         values.put(COLUMN_LASTNAME, doctor.getLastName());
         values.put(COLUMN_ADDRESS, doctor.getAddress());
@@ -121,7 +120,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, medication.getId());
         values.put(COLUMN_NAME, medication.getName());
         values.put(COLUMN_DESCRIPTION, medication.getDescription());
         values.put(COLUMN_PHOTO, medication.getPhoto());
@@ -140,7 +138,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, dosage.getId());
         values.put(COLUMN_FOREIGN_PATIENT_ID, dosage.getPatient().getId());
         values.put(COLUMN_FOREIGN_MEDICATION_ID, dosage.getMedication().getId());
         values.put(COLUMN_DOSAGE, dosage.getQuantity());
@@ -157,7 +154,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, date.getId());
         values.put(COLUMN_DATE, date.getDate());
         values.put(COLUMN_TAKEN, date.isTaken());
         values.put(COLUMN_FOREIGN_DOSAGE_ID, dosage.getId());
@@ -176,7 +172,6 @@ public class DoctorDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, patient.getId());
         values.put(COLUMN_FIRSTNAME, patient.getFirstName());
         values.put(COLUMN_LASTNAME, patient.getLastName());
         values.put(COLUMN_ADDRESS, patient.getAddress());
@@ -211,6 +206,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         Patient patient = new Patient(id, cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
         // return profile
+        cursor.close();
         return patient;
     }
 
@@ -227,6 +223,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         Medication medication = new Medication(cursor.getInt(0), cursor.getString(1),
                 cursor.getString(2), cursor.getBlob(5));
         // return profile
+        cursor.close();
         return medication;
     }
 
@@ -248,6 +245,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 getAllDates(dosageId),
                 cursor.getString(3)
         );
+        cursor.close();
         // return profile
         return dosage;
     }
@@ -267,6 +265,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getInt(2) > 0
         );
+        cursor.close();
         // return profile
         return date;
     }
@@ -285,6 +284,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         Doctor doctor = new Doctor(cursor.getInt(0), cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6));
         // return profile
+        cursor.close();
         return doctor;
     }
 
@@ -309,6 +309,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return patientList;
     }
 
@@ -332,6 +333,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return doctorList;
     }
 
@@ -385,6 +387,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return medicationList;
     }
 
@@ -436,6 +439,44 @@ public class DoctorDB extends SQLiteOpenHelper {
         }
         return dateList;
     }
+
+    public Patient getPatient(String userName, String password) {
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " + userName);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PATIENT, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
+                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHOTO, COLUMN_FOREIGN_DOCTOR_ID}, COLUMN_FIRSTNAME + "=?" + " AND " + COLUMN_PASSWORD + "=?" ,
+                new String[]{userName, password}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        int idPatient = cursor.getInt(0);
+        Patient patient = new Patient(idPatient, cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
+        // return profile
+        cursor.close();
+        return patient;
+    }
+
+    public Doctor getDoctor(String userName, String password) {
+        Log.i(TAG, "MyDatabaseHelper.getProfile ... " +userName);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DOCTOR, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
+                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHOTO}, COLUMN_FIRSTNAME + "=?" + " AND " + COLUMN_PASSWORD + "=?" ,
+                new String[]{userName, password}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Doctor doctor = new Doctor(cursor.getInt(0), cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6));
+        // return profile
+        cursor.close();
+        return doctor;
+    }
+
 
 
 
