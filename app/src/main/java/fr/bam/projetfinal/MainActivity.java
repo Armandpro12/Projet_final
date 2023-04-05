@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import fr.bam.projetfinal.model.Doctor;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -16,7 +18,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createDefault();
+        startActivity(new Intent(this, LoginActivity.class));
         startActivity(new Intent(this, CalendrierActivity.class));
+
+    }
+
+    private void createDefault(){
+        DoctorDB doctorDB = new DoctorDB(this);
+        Doctor doctor = new Doctor("123FTest", "456LTest", "3094423ATest", "930423@test.com", "AAAA");
+        try{
+            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getId()).toString());
+        } catch (Exception e){
+            System.out.println("_____EXCEPTION DON't EXIST_______________");
+            doctorDB.addDoctor(doctor);
+            System.out.println("________DOCTOR__________\n" + doctorDB.getDoctor(doctor.getId()).toString());
+        }
+
 
     }
 }
