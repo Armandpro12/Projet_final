@@ -12,9 +12,6 @@
         android:theme="@style/Theme.ProjetFinal"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -22,6 +19,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CalendrierActivity"
+            android:exported="true">
         </activity>
     </application>
 
