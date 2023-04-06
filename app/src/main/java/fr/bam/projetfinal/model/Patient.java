@@ -6,28 +6,24 @@ import java.util.List;
 
 public class Patient extends User{
     private Doctor mDoctor;
-    private List<Dosage> mDosages;
 
-    public Patient(String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor, List<Dosage> dosages) {
+
+    public Patient(String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
         super(firstName, lastName, address, email, password, photo);
         mDoctor = doctor;
-        mDosages = dosages;
+
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor, List<Dosage> dosages) {
+    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
         super(id, firstName, lastName, address, email, password, photo);
         mDoctor = doctor;
-        mDosages = dosages;
+
     }
 
     public Patient() {
         super();
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
-        super(id, firstName, lastName, address, email, password, photo);
-        mDoctor = doctor;
-    }
 
     public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo) {
         super(id, firstName, lastName, address, email, password, photo);
@@ -41,11 +37,5 @@ public class Patient extends User{
         mDoctor = doctor;
     }
 
-    public List<Dosage> getDosages() {
-        return mDosages;
-    }
 
-    public void setMedications(List<Dosage> dosages) {
-        mDosages = dosages;
-    }
 }

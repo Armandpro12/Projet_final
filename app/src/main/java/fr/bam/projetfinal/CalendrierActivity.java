@@ -1,37 +1,68 @@
 package fr.bam.projetfinal;
 
+
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import org.threeten.bp.DayOfWeek;
+
 import java.util.List;
 
+import fr.bam.projetfinal.model.Date;
+import fr.bam.projetfinal.model.Dosage;
 
 public class CalendrierActivity extends AppCompatActivity {
-    private CalendarView calendarView;
+    DoctorDB doctorDB;
+    private MaterialCalendarView materialCalendarView;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendrier);
-        calendarView = findViewById(R.id.calendarView);
+        //calendarView = findViewById(R.id.calendarView);
 
-        Calendar calendarT = Calendar.getInstance();
-        calendarT.set(2023, 3, 4); // mois de 0 à 11, donc avril est 3
+        materialCalendarView = findViewById(R.id.calendarView);
+        Bundle extras = getIntent().getExtras();
+        doctorDB = new DoctorDB(CalendrierActivity.this);
+//        int id = extras.getInt("Idpatient");
+        DayOfWeek firstDayOfWeek = DayOfWeek.MONDAY;
 
-        EventDay eventDay1 = new EventDay(calendarT, R.drawable.green_circle);
-        EventDay eventDay2 = new EventDay(calendarT, R.drawable.blue_circle);
+        materialCalendarView.state().edit().setFirstDayOfWeek(firstDayOfWeek).commit();
+        materialCalendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+        materialCalendarView.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
+        materialCalendarView.setTopbarVisible(false);
 
-        List<EventDay> events = new ArrayList<>();
-        events.add(eventDay1);
-        events.add(eventDay2);
-        calendarView.setEvents(events);
-        calendarView.setEvents(events);
 
+        //loadPatientMedicationDates(id);
+        CalendarDay calendarDay = CalendarDay.from(2023, 4, 14);
+       // CalendarDay calendarDay1 = CalendarDay.from(2017, 11, 16);
+
+        //materialCalendarView.setSelectedDate(calendarDay1);
+
+        materialCalendarView.addDecorator(new EventDecorator(calendarDay, Color.RED));
+
+
+    }
+
+    void loadPatientMedicationDates(int idPatient) {
+        System.out.println("_________PATIENT__________\n" + idPatient);
+        List<Dosage> dosages = doctorDB.getAllDosages(idPatient);
+        System.out.println("_________DOSAGES__________\n" + dosages.size());
+        List<Date> dates ;
+        for (Dosage dosage : dosages) {
+            System.out.println("_________DOSAGE__________\n" + dosage.getMedication().getName());
+            dates = doctorDB.getAllDates(dosage.getId());
+            for (Date date : dates) {
+                System.out.println("_________DATE__________\n" + date.getDate());
+                CalendarDay calendarDay = CalendarDay.from(Integer.parseInt(date.getDate().substring(0, 4)), Integer.parseInt(date.getDate().substring(5, 7)), Integer.parseInt(date.getDate().substring(8, 10)));
+                materialCalendarView.addDecorator(new EventDecorator(calendarDay, Color.RED));
+            }
+        }
     }
 }

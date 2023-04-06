@@ -60,6 +60,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.dropAllTAble();
         Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
         // Script.
         String scriptDoctor = "CREATE TABLE " + TABLE_DOCTOR + "("
@@ -86,6 +87,15 @@ public class DoctorDB extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_DATE + " DATE," + COLUMN_TAKEN + " BIT," + COLUMN_FOREIGN_DOSAGE_ID + " INTEGER," + "FOREIGN KEY("+ COLUMN_FOREIGN_DOSAGE_ID +") REFERENCES " + TABLE_DOSAGE + "("+COLUMN_ID+")"+")";
         db.execSQL(scriptDate);
 
+    }
+
+    public void dropAllTAble() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCTOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PATIENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEDICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOSAGE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DATE);
     }
 
 
@@ -142,18 +152,16 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         db.insert(TABLE_DOSAGE, null, values);
         db.close();
-        for(Date date : dosage.getDates()){
-            addDate(dosage, date);
-        }
+
     }
 
-    public void addDate(Dosage dosage, Date date){
+    public void addDate(Date date){
         Log.i(TAG, "MyDatabaseHelper.addProfile ... " + date.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, date.getDate());
         values.put(COLUMN_TAKEN, date.isTaken());
-        values.put(COLUMN_FOREIGN_DOSAGE_ID, dosage.getId());
+        values.put(COLUMN_FOREIGN_DOSAGE_ID, date.getmDosage().getId());
 
         db.insert(TABLE_DATE, null, values);
         db.close();
@@ -181,10 +189,6 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         // Closing database connection
         db.close();
-        List<Dosage> dosages = new ArrayList<>();
-        for(Dosage dosage : dosages){
-            addDosage(dosage);
-        }
     }
 
     public Patient getPatient(int id) {
@@ -200,7 +204,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         int idPatient = cursor.getInt(0);
         Patient patient = new Patient(id, cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)));
         // return profile
         cursor.close();
         return patient;
@@ -238,7 +242,6 @@ public class DoctorDB extends SQLiteOpenHelper {
                 dosageId,
                 getPatient(cursor.getInt(1)),
                 getMedication(cursor.getInt(2)),
-                getAllDates(dosageId),
                 cursor.getString(3)
         );
         cursor.close();
@@ -259,7 +262,8 @@ public class DoctorDB extends SQLiteOpenHelper {
         Date date = new Date(
                 cursor.getInt(0),
                 cursor.getString(1),
-                cursor.getInt(2) > 0
+                cursor.getInt(2) > 0,
+                getDosage(cursor.getInt(3))
         );
         cursor.close();
         // return profile
@@ -298,7 +302,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int idPatient = cursor.getInt(0);
-                Patient patient = new Patient(idPatient, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
+                Patient patient = new Patient(idPatient, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)));
                 // Adding profile to list
                 patientList.add(patient);
 
@@ -396,13 +400,14 @@ public class DoctorDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
+            System.out.println("cursor.moveToFirst()");
             do {
                 int dosageId = cursor.getInt(0);
                 Dosage dosage = new Dosage(
                         dosageId,
                         getPatient(cursor.getInt(1)),
                         getMedication(cursor.getInt(2)),
-                        getAllDates(dosageId),
+
                         cursor.getString(3)
                 );
                 dosageList.add(dosage);
@@ -426,7 +431,8 @@ public class DoctorDB extends SQLiteOpenHelper {
                 Date date = new Date(
                         cursor.getInt(0),
                         cursor.getString(1),
-                        cursor.getInt(2) > 1
+                        cursor.getInt(2) > 1,
+                        getDosage(cursor.getInt(3))
                 );
                 dateList.add(date);
 
@@ -449,7 +455,7 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         int idPatient = cursor.getInt(0);
         Patient patient = new Patient(idPatient, cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)), getAllDosages(idPatient));
+                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getBlob(6), getDoctor(cursor.getInt(7)));
         // return profile
         cursor.close();
         return patient;
