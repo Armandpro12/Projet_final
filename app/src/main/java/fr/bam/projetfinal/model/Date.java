@@ -1,19 +1,26 @@
 package fr.bam.projetfinal.model;
 
 public class Date {
-    public static int id = 0;
+    public static int id;
+
+    /**
+     * type of date : 'yyyy-MM-dd HH:mm:ss'
+     */
     private String mDate;
     private boolean mIsTaken;
 
-    public Date(String date, boolean isTaken) {
+    private Ordonnance mOrdonnance;
+
+    public Date(String date, boolean isTaken, Ordonnance ordonnance) {
         mDate = date;
         mIsTaken = isTaken;
-        id++;
+        mOrdonnance = ordonnance;
     }
 
-    public Date(int id, String date, boolean isTaken) {
+    public Date(int id, String date, boolean isTaken, Ordonnance ordonnance) {
         mDate = date;
         mIsTaken = isTaken;
+        mOrdonnance = ordonnance;
         this.id = id;
     }
 
@@ -35,5 +42,13 @@ public class Date {
 
     public static int getId() {
         return id;
+    }
+
+    public Ordonnance getOrdonnance() {
+        return mOrdonnance;
+    }
+
+    public void setOrdonnance(Ordonnance ordonnance) {
+        this.mOrdonnance = ordonnance;
     }
 }

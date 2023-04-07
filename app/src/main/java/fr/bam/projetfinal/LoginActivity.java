@@ -12,6 +12,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
+import fr.bam.projetfinal.model.Doctor;
+import fr.bam.projetfinal.model.Patient;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mUsernameInput;
@@ -68,7 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                 DoctorDB doctorDB = new DoctorDB(LoginActivity.this);
                 if(mIsDoctorCheckBox.isChecked()){
                     try{
-                        doctorDB.getDoctor(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                        Doctor doctor = doctorDB.getDoctor(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                        List<Patient> patients = doctorDB.getAllPatientsOfDoctor(doctor.getId());
+                        System.out.println("_____PATIENTS___________" + patients);
+                        Toast.makeText(LoginActivity.this,"DOCTOR LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
                     }catch(Exception e){
                         System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
                         Toast.makeText(LoginActivity.this,"Doctor does not exist", Toast.LENGTH_SHORT).show();
@@ -77,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     try{
                         doctorDB.getPatient(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                        Toast.makeText(LoginActivity.this,"PATIENT LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
                     }catch(Exception e){
                         System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
                         Toast.makeText(LoginActivity.this,"Patient does not exist", Toast.LENGTH_SHORT).show();

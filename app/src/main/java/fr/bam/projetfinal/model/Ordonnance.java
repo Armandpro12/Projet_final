@@ -1,33 +1,32 @@
 package fr.bam.projetfinal.model;
 
-import java.util.List;
-
 /**
  * the date is a String in this format : "yyyy-MM-dd"
  */
-public class Dosage {
+public class Ordonnance {
     private Patient mPatient;
     private Medication mMedication;
-    private List<Date> mDates;
-    private String mQuantity;
+    private String mDosage;
+
+    private String mDescription;
 
 
     public static int id;
 
 
-    public Dosage(Patient patient, Medication medication, List<Date> dates, String quantity) {
+    public Ordonnance(Patient patient, Medication medication, String description, String dosage) {
         mPatient = patient;
         mMedication = medication;
-        mDates = dates;
-        mQuantity = quantity;
+        mDosage = dosage;
+        mDescription = description;
     }
 
-    public Dosage(int id, Patient patient, Medication medication, List<Date> dates, String quantity) {
+    public Ordonnance(int id, Patient patient, Medication medication, String description, String dosage) {
         mPatient = patient;
         mMedication = medication;
-        mDates = dates;
-        mQuantity = quantity;
+        mDosage = dosage;
         this.id = id;
+        mDescription = description;
     }
 
 
@@ -52,19 +51,20 @@ public class Dosage {
         mMedication = medication;
     }
 
-    public List<Date> getDates() {
-        return mDates;
+
+    public String getDosage() {
+        return mDosage;
     }
 
-    public void setDates(List<Date> dates) {
-        mDates = dates;
+    public void setDosage(String dosage) {
+        mDosage = dosage;
     }
 
-    public String getQuantity() {
-        return mQuantity;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setQuantity(String quantity) {
-        mQuantity = quantity;
+    public void setDescription(String description) {
+        mDescription = description;
     }
 }
