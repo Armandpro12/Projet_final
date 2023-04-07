@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Hello text" />
+        android:text="Create your account" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,21 +40,15 @@
             android:hint="password"
             android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/login_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="login" />
+
 
         <Button
-            android:id="@+id/Create_Doctor_button"
+            android:id="@+id/Create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Create Doctor" />
+            android:text="Create" />
     </LinearLayout>
 </LinearLayout>
 
