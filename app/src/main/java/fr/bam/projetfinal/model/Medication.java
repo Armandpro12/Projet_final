@@ -2,7 +2,7 @@ package fr.bam.projetfinal.model;
 
 public class Medication {
 
-    public static int id = 0;
+    public static int id;
     private String mName;
     private String mDescription;
 
@@ -12,14 +12,13 @@ public class Medication {
         mName = name;
         mDescription = description;
         mPhoto = photo;
-        id += 1;
     }
 
     public Medication(int id, String name, String description, byte[] photo){
         mName = name;
         mDescription = description;
         mPhoto = photo;
-        this.id += id;
+        this.id = id;
     }
 
     public String getName() {

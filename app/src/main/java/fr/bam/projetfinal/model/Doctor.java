@@ -16,11 +16,4 @@ public class Doctor extends User{
         super();
     }
 
-    public Doctor(String firstName, String lastName, String address, String email, String password) {
-        super(firstName, lastName, address, email, password);
-    }
-
-
-
-
 }

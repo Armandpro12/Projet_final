@@ -8,7 +8,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.List;
+
+import fr.bam.projetfinal.model.Doctor;
+import fr.bam.projetfinal.model.Patient;
 
 import fr.bam.projetfinal.model.Doctor;
 
@@ -19,16 +26,17 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUsernameInput;
     private EditText mPasswordInput;
     private Button mLoginButton;
-    private Button mCreateDoctor;
+
+    private CheckBox mIsDoctorCheckBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mIsDoctorCheckBox = findViewById(R.id.login_isDoctor_checkbox);
         mUsernameInput = findViewById(R.id.login_username_edittext);
         mPasswordInput = findViewById(R.id.login_password_edittext);
         mLoginButton = findViewById(R.id.login_login_button);
         mLoginButton.setEnabled(false);
-        mCreateDoctor = findViewById(R.id.Create_Doctor_button);
         mUsernameInput.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -38,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkFields();
             }
 
             @Override
@@ -54,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                checkFields();
             }
 
             @Override
@@ -93,10 +102,35 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DoctorDB doctorDB = new DoctorDB(LoginActivity.this);
+                if(mIsDoctorCheckBox.isChecked()){
+                    try{
+                        Doctor doctor = doctorDB.getDoctor(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                        List<Patient> patients = doctorDB.getAllPatientsOfDoctor(doctor.getId());
+                        System.out.println("_____PATIENTS___________" + patients);
+                        Toast.makeText(LoginActivity.this,"DOCTOR LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
+                    }catch(Exception e){
+                        System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
+                        Toast.makeText(LoginActivity.this,"Doctor does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    try{
+                        doctorDB.getPatient(mUsernameInput.getText().toString(), mPasswordInput.getText().toString());
+                        Toast.makeText(LoginActivity.this,"PATIENT LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
+                    }catch(Exception e){
+                        System.out.println("_________EXCEPTIONS LOGINPASSWORD FALSE______\n" + e);
+                        Toast.makeText(LoginActivity.this,"Patient does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                doctorDB.close();
+            }
+        });
+
     }
-
-
-
 
     private void checkFields() {
         String username = mUsernameInput.getText().toString();
