@@ -26,6 +26,8 @@
         <activity
             android:name=".CreateDoctorActivity"
             android:exported="true" />
+        <activity android:name=".DoctorActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

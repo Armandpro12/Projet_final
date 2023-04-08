@@ -15,6 +15,10 @@ import fr.bam.projetfinal.model.Patient;
 public class MainActivity extends AppCompatActivity {
 
 
+    public static final String STORED_DATA = "storedData";
+    public static final String IS_LOGIN = "isLogin";
+    public static final String IS_DOCTOR = "isDoctor";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
