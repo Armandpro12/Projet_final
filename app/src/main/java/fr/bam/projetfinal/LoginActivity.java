@@ -10,7 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import fr.bam.projetfinal.model.Doctor;
+
 public class LoginActivity extends AppCompatActivity {
+
+    public static final DoctorDB db = new DoctorDB(null);
 
     private EditText mUsernameInput;
     private EditText mPasswordInput;
@@ -69,7 +73,30 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = mUsernameInput.getText().toString();
+                String password = mPasswordInput.getText().toString();
+                Doctor doctor = db.getDoctor(username, password);
+                if (doctor != null) {
+                    System.out.printf("Doctor %s logged in", doctor.getFirstName());
+
+                    /*Intent gameActivityIntent = new Intent(LoginActivity.this, DoctorActivity.class);
+                    gameActivityIntent.putExtra("doctor", doctor);
+                    startActivity(gameActivityIntent);*/
+                }
+
+            }
+        });
+
+
     }
+
+
+
 
     private void checkFields() {
         String username = mUsernameInput.getText().toString();

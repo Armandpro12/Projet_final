@@ -10,11 +10,15 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import fr.bam.projetfinal.model.Doctor;
+
 public class CreateDoctorActivity extends AppCompatActivity {
 
     private EditText mUsernameInput;
     private EditText mPasswordInput;
     private Button mCreateDoctor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,13 @@ public class CreateDoctorActivity extends AppCompatActivity {
         mCreateDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Doctor doctor = new Doctor();
+                doctor.setFirstName(mUsernameInput.getText().toString());
+                doctor.setPassword(mPasswordInput.getText().toString());
+
+
+                LoginActivity.db.addDoctor(doctor);
+
                 finish();
             }
         });

@@ -116,4 +116,6 @@ public abstract class User {
                 ", mPhoto=" + Arrays.toString(mPhoto) +
                 '}';
     }
+
+
 }
