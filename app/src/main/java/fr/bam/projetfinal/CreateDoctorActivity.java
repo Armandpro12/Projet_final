@@ -22,7 +22,7 @@ public class CreateDoctorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_Create_Doctor);
+        setContentView(R.layout.activity_create_doctor);
         mUsernameInput = findViewById(R.id.login_username_edittext);
         mPasswordInput = findViewById(R.id.login_password_edittext);
         mCreateDoctor = findViewById(R.id.Create_button);
@@ -65,12 +65,12 @@ public class CreateDoctorActivity extends AppCompatActivity {
         mCreateDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DoctorDB db = new DoctorDB(CreateDoctorActivity.this);
                 Doctor doctor = new Doctor();
                 doctor.setFirstName(mUsernameInput.getText().toString());
                 doctor.setPassword(mPasswordInput.getText().toString());
 
-
-                LoginActivity.db.addDoctor(doctor);
+                db.addDoctor(doctor);
 
                 finish();
             }

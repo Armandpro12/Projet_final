@@ -2,11 +2,15 @@ package fr.bam.projetfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+
+import fr.bam.projetfinal.model.Doctor;
+import fr.bam.projetfinal.model.Patient;
 
 public class MainActivity extends AppCompatActivity {
 

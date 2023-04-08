@@ -21,13 +21,14 @@ import fr.bam.projetfinal.model.Doctor;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final DoctorDB db = new DoctorDB(null);
+
 
     private EditText mUsernameInput;
     private EditText mPasswordInput;
     private Button mLoginButton;
 
     private CheckBox mIsDoctorCheckBox;
+    private  Button mCreateDoctor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameInput = findViewById(R.id.login_username_edittext);
         mPasswordInput = findViewById(R.id.login_password_edittext);
         mLoginButton = findViewById(R.id.login_login_button);
+        mCreateDoctor = findViewById(R.id.Create_Doctor_button);
         mLoginButton.setEnabled(false);
         mUsernameInput.addTextChangedListener(new TextWatcher() {
 
@@ -77,8 +79,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent gameActivityIntent = new Intent(LoginActivity.this, CreateDoctorActivity.class);
-                startActivity(gameActivityIntent);
+                Intent createDoctorActivityIntent = new Intent(LoginActivity.this, CreateDoctorActivity.class);
+                startActivity(createDoctorActivityIntent);
 
             }
         });
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DoctorDB db = new DoctorDB(LoginActivity.this);
                 String username = mUsernameInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
                 Doctor doctor = db.getDoctor(username, password);
