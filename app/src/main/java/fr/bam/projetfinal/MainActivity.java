@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         testInsertPatient(patient2);
 
 
+
     }
 
     private void testInsertDoctor(Doctor doctor){

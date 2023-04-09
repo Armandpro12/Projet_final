@@ -1,14 +1,11 @@
 package fr.bam.projetfinal;
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import fr.bam.projetfinal.model.Doctor;
 
 public class DoctorActivity extends AppCompatActivity {
 
@@ -17,7 +14,7 @@ public class DoctorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_view);
+        setContentView(R.layout.activity_doctor_view_old);
         mdisconnect = findViewById(R.id.Disconnect_button);
 
         mdisconnect.setOnClickListener(new View.OnClickListener() {

@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent ;
         if(isDoctor == 1){
-            intent = new Intent(LoginActivity.this, DoctorActivity.class);
+            intent = new Intent(LoginActivity.this, doctor_view.class);
         }else{
             intent = new Intent(LoginActivity.this, DoctorActivity.class);
         }

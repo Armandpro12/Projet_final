@@ -12,6 +12,10 @@
         android:theme="@style/Theme.ProjetFinal"
         tools:targetApi="31">
         <activity
+            android:name=".doctor_view"
+            android:exported="true"
+            android:label="doctor_view" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
@@ -26,7 +30,8 @@
         <activity
             android:name=".CreateDoctorActivity"
             android:exported="true" />
-        <activity android:name=".DoctorActivity"
+        <activity
+            android:name=".DoctorActivity"
             android:exported="true" />
     </application>
 
