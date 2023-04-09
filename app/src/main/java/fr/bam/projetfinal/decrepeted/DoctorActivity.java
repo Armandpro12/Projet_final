@@ -1,4 +1,4 @@
-package fr.bam.projetfinal;
+package fr.bam.projetfinal.decrepeted;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import fr.bam.projetfinal.MainActivity;
+import fr.bam.projetfinal.R;
 
 public class DoctorActivity extends AppCompatActivity {
 

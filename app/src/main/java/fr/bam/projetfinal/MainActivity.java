@@ -28,12 +28,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDefault(){
+        /*
         Doctor doctor1 = new Doctor("D1", "DLN1", "1 street Doctors", "doctor1@hospital.com", "123", new byte[0]);
         Patient patient1 = new Patient("P1", "PLN1", "1 street Patients", "patient1@home.com", "123", new byte[0], doctor1);
         Patient patient2 = new Patient("P2", "PLN2", "2 street Patients", "patient2@home.com", "123", new byte[0], doctor1);
         testInsertDoctor(doctor1);
         testInsertPatient(patient1);
-        testInsertPatient(patient2);
+        testInsertPatient(patient2);*/
 
 
 

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_patient"
-        android:name="fr.bam.projetfinal.ui.PatientFragment"
+        android:name="fr.bam.projetfinal.ui.ListPatientFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_patient" />
+        tools:layout="@layout/fragment_list_patient" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

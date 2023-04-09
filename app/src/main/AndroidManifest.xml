@@ -31,7 +31,10 @@
             android:name=".CreateDoctorActivity"
             android:exported="true" />
         <activity
-            android:name=".DoctorActivity"
+            android:name=".decrepeted.DoctorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CreatePatientActivity"
             android:exported="true" />
     </application>
 

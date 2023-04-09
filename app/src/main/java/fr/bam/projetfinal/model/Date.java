@@ -3,14 +3,15 @@ package fr.bam.projetfinal.model;
 public class Date {
     public static int id;
 
-    /**
-     * type of date : 'yyyy-MM-dd HH:mm:ss'
-     */
+
     private String mDate;
     private boolean mIsTaken;
 
     private Ordonnance mOrdonnance;
 
+    /**
+     * type of date : 'yyyy-MM-dd HH:mm:ss'
+     */
     public Date(String date, boolean isTaken, Ordonnance ordonnance) {
         mDate = date;
         mIsTaken = isTaken;

@@ -15,10 +15,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import fr.bam.projetfinal.decrepeted.DoctorActivity;
 import fr.bam.projetfinal.model.Doctor;
 import fr.bam.projetfinal.model.Patient;
-
-import fr.bam.projetfinal.model.Doctor;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -4,27 +4,27 @@ import java.util.List;
 
 
 public class Patient extends User{
-    private Doctor mDoctor;
+    private int doctorId;
 
-    public Patient(String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
+    public Patient(String firstName, String lastName, String address, String email, String password, byte[] photo, int doctorId) {
         super(firstName, lastName, address, email, password, photo);
-        mDoctor = doctor;
+        this.doctorId = doctorId;
     }
 
-    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, Doctor doctor) {
+    public Patient(int id, String firstName, String lastName, String address, String email, String password, byte[] photo, int doctorId) {
         super(id, firstName, lastName, address, email, password, photo);
-        mDoctor = doctor;
+        this.doctorId = doctorId;
     }
 
     public Patient() {
         super();
     }
 
-    public Doctor getDoctor() {
-        return mDoctor;
+    public int getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctor(Doctor doctor) {
-        mDoctor = doctor;
+    public void setDoctor(int doctor) {
+        doctorId = doctor;
     }
 }

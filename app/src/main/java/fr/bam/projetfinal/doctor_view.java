@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import fr.bam.projetfinal.databinding.ActivityDoctorViewBinding;
+import fr.bam.projetfinal.ui.ListPatientFragment;
 import fr.bam.projetfinal.ui.MedicamentFragment;
 import fr.bam.projetfinal.ui.ParametreFragment;
-import fr.bam.projetfinal.ui.PatientFragment;
 
 public class doctor_view extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class doctor_view extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDoctorViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new PatientFragment());
+        replaceFragment(new ListPatientFragment());
 
 
         // create a switch case to navigate between the different fragments using setOnItemSelectedListener()
@@ -30,7 +30,7 @@ public class doctor_view extends AppCompatActivity {
             switch (item.getItemId()) {
 
                 case R.id.navigation_patient:
-                    replaceFragment(new PatientFragment());
+                    replaceFragment(new ListPatientFragment());
                     break;
                 case R.id.navigation_Medicament:
                     replaceFragment(new MedicamentFragment());

@@ -166,7 +166,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         values.put(COLUMN_EMAIL, patient.getEmail());
         values.put(COLUMN_PASSWORD, patient.getPassword());
         values.put(COLUMN_PHOTO, patient.getPhoto());
-        values.put(COLUMN_FOREIGN_DOCTOR_ID, patient.getDoctor().getId());
+        values.put(COLUMN_FOREIGN_DOCTOR_ID, patient.getDoctorId());
 
         // Inserting Row
         db.insert(TABLE_PATIENT, null, values);
@@ -194,7 +194,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getString(4),
                 cursor.getString(5),
                 cursor.getBlob(6),
-                getDoctor(cursor.getInt(7))
+                (cursor.getInt(7))
         );
         // return profile
         cursor.close();
@@ -310,7 +310,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                         cursor.getString(4),
                         cursor.getString(5),
                         cursor.getBlob(6),
-                        getDoctor(cursor.getInt(7))
+                        (cursor.getInt(7))
                 );
                 // Adding profile to list
                 patientList.add(patient);
@@ -459,7 +459,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getString(4),
                 cursor.getString(5),
                 cursor.getBlob(6),
-                getDoctor(cursor.getInt(7))
+                (cursor.getInt(7))
         );
         // return profile
         cursor.close();
@@ -485,7 +485,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                         cursor.getString(4),
                         cursor.getString(5),
                         cursor.getBlob(6),
-                        getDoctor(cursor.getInt(7))
+                        (cursor.getInt(7))
                 );
                 patientList.add(patient);
             } while (cursor.moveToNext());
@@ -546,6 +546,34 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         // return count
         return count;
+    }
+
+    public ArrayList<Patient> getAlldoctorsPatients(int idDoctor){
+        Log.i(TAG, "MyDatabaseHelper.getAlldoctorsPatients ... " + idDoctor);
+
+        ArrayList<Patient> patientList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PATIENT, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
+                        COLUMN_LASTNAME, COLUMN_ADDRESS, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHOTO, COLUMN_FOREIGN_DOCTOR_ID}, COLUMN_FOREIGN_DOCTOR_ID + "=?",
+                new String[]{String.valueOf(idDoctor)}, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do{
+                Patient patient = new Patient(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getBlob(6),
+                        (cursor.getInt(7))
+                );
+                patientList.add(patient);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return patientList;
     }
 
 
