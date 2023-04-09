@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.ParametreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank calendrierFragment layout -->
 
     <TextView
         android:id="@+id/textView2"

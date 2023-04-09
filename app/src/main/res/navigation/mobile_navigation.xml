@@ -5,19 +5,19 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <fragment
+    <calendrierFragment
         android:id="@+id/navigation_patient"
         android:name="fr.bam.projetfinal.ui.ListPatientFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_list_patient" />
 
-    <fragment
+    <calendrierFragment
         android:id="@+id/navigation_dashboard"
         android:name="fr.bam.projetfinal.ui.MedicamentFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_parametre" />
 
-    <fragment
+    <calendrierFragment
         android:id="@+id/navigation_notifications"
         android:name="fr.bam.projetfinal.ui.ParametreFragment"
         android:label="@string/title_notifications"

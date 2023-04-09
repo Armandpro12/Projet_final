@@ -583,4 +583,30 @@ public class DoctorDB extends SQLiteOpenHelper {
     }
 
 
+    //get all date of a patient
+    public ArrayList<Date> getAllPatientDates(int idPatient){
+        Log.i(TAG, "MyDatabaseHelper.getAllPatientDates ... " + idPatient);
+
+        ArrayList<Date> dateList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DATE, new String[]{COLUMN_ID, COLUMN_DATE,
+                        COLUMN_TAKEN, COLUMN_FOREIGN_ORDONNANCE_ID, COLUMN_FOREIGN_PATIENT_ID}, COLUMN_FOREIGN_PATIENT_ID + "=?",
+                new String[]{String.valueOf(idPatient)}, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do{
+                Date date = new Date(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getInt(2) > 0,
+                        getOrdonnance(cursor.getInt(3))
+                );
+                dateList.add(date);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dateList;
+    }
+
+
 }

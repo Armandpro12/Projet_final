@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_calendrier_patient_"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="calendrier" />
+
+    <item
+        android:id="@+id/navigation_patient_Medicament"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Médicament" />
+
+
+    <item
+        android:id="@+id/navigation_patient_parameter"
+        android:icon="@drawable/baseline_app_settings_alt_24"
+        android:title="paramètre" />
+
+</menu>
