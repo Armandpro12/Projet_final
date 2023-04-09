@@ -36,6 +36,9 @@
         <activity
             android:name=".CreatePatientActivity"
             android:exported="true" />
+        <activity
+            android:name=".patient_view"
+            android:exported="true" />
     </application>
 
 </manifest>
