@@ -1,19 +1,28 @@
 package fr.bam.projetfinal.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import fr.bam.projetfinal.CreatePatientActivity;
 import fr.bam.projetfinal.DoctorDB;
+import fr.bam.projetfinal.MainActivity;
 import fr.bam.projetfinal.R;
+import fr.bam.projetfinal.model.Patient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +41,8 @@ public class ListPatientFragment extends Fragment {
     private String mParam2;
 
     private FloatingActionButton mAddPatientButton;
+
+    private ConstraintLayout constraintLayout;
 
     public ListPatientFragment() {
         // Required empty public constructor
@@ -67,8 +78,11 @@ public class ListPatientFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // You can call the findViewById() method here
-        DoctorDB db = new DoctorDB(ListPatientFragment.this.getContext());
+
+
         mAddPatientButton = view.findViewById(R.id.fragment_list_patient_addPatient_button);
+        constraintLayout = view.findViewById(R.id.fragment_list_patient_constraintLayout);
+        displayPatient(constraintLayout);
         mAddPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +93,38 @@ public class ListPatientFragment extends Fragment {
             }
         });
 
+    }
+
+    public void displayPatient(ConstraintLayout cl) {
+        DoctorDB db = new DoctorDB(ListPatientFragment.this.getContext());
+        SharedPreferences stored_data = this.getActivity().getSharedPreferences(MainActivity.STORED_DATA, Context.MODE_PRIVATE);
+        int doctorId = stored_data.getInt(MainActivity.STORED_DATA, -1);
+        ArrayList<Patient> patientsList = db.getAlldoctorsPatients(doctorId);
+
+        for (int i = 0; i < patientsList.size(); i++) {
+
+            TextView textView = new TextView(this.getContext());
+            textView.setText(patientsList.get(i).getFirstName() + " " + patientsList.get(i).getLastName());
+            textView.setId(patientsList.get(i).getId());
+            textView.setPadding(10 , 60*i , 0 , 0 );
+            textView.setTextSize(20);
+            cl.addView(textView);
+
+
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    /*
+                    Intent myI =   new Intent(DisplayProfile.this , ProfilActivity.class);
+                    myI.putExtra("id",textView.getId());
+                    startActivity(myI);
+                    */
+
+                }
+            });
+
+        }
     }
 
     @Override

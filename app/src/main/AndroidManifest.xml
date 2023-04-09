@@ -36,6 +36,12 @@
         <activity
             android:name=".CreatePatientActivity"
             android:exported="true" />
+        <activity
+            android:name=".CreateMedicationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddMedicationToPatientActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

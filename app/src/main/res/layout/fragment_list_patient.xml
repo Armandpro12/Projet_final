@@ -20,7 +20,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minHeight="1000dp">
+            android:minHeight="1000dp"
+            android:id="@+id/fragment_list_patient_constraintLayout">
 
             <TextView
                 android:id="@+id/fragement_patient_textView"

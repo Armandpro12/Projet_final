@@ -355,10 +355,10 @@ public class DoctorDB extends SQLiteOpenHelper {
     }
 
 
-    public List<Medication> getAllMedications(){
+    public ArrayList<Medication> getAllMedications(){
         Log.i(TAG, "MyDatabaseHelper.getAllMedications ... ");
 
-        List<Medication>  medicationList = new ArrayList<Medication>();
+        ArrayList<Medication>  medicationList = new ArrayList<Medication>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_MEDICATION;
 
@@ -548,6 +548,12 @@ public class DoctorDB extends SQLiteOpenHelper {
         return count;
     }
 
+
+    /**
+     * getting all doctors patients
+     * @param idDoctor doctor id
+     * @return
+     */
     public ArrayList<Patient> getAlldoctorsPatients(int idDoctor){
         Log.i(TAG, "MyDatabaseHelper.getAlldoctorsPatients ... " + idDoctor);
 

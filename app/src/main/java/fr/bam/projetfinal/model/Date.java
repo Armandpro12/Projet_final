@@ -17,7 +17,9 @@ public class Date {
         mIsTaken = isTaken;
         mOrdonnance = ordonnance;
     }
-
+    /**
+     * type of date : 'yyyy-MM-dd HH:mm:ss'
+     */
     public Date(int id, String date, boolean isTaken, Ordonnance ordonnance) {
         mDate = date;
         mIsTaken = isTaken;
