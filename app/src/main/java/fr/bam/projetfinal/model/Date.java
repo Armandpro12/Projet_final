@@ -1,7 +1,7 @@
 package fr.bam.projetfinal.model;
 
 public class Date {
-    public static int id;
+    public  int id;
 
 
     private String mDate;
@@ -43,7 +43,7 @@ public class Date {
         mIsTaken = taken;
     }
 
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 

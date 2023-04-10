@@ -11,7 +11,7 @@ public class Ordonnance {
     private String mDescription;
 
 
-    public static int id;
+    public int id;
 
 
     public Ordonnance(int patientID, int medicationID, String description, String dosage) {
@@ -31,7 +31,7 @@ public class Ordonnance {
 
 
 
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 

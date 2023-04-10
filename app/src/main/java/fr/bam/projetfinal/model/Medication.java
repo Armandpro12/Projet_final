@@ -2,7 +2,7 @@ package fr.bam.projetfinal.model;
 
 public class Medication {
 
-    public static int id;
+    public  int id;
     private String mName;
     private String mDescription;
 

@@ -106,7 +106,9 @@ public class ListPatientFragment extends Fragment {
         SharedPreferences stored_data = this.getActivity().getSharedPreferences(MainActivity.STORED_DATA, Context.MODE_PRIVATE);
         int doctorId = stored_data.getInt(MainActivity.IS_LOGIN, -1);
         ArrayList<Patient> patientsList = db.getAllPatientsOfDoctor(doctorId);
+        ArrayList<Patient> allPatients = db.getAllPatients();
         System.out.printf("\n\n %s \n\n", patientsList.toString());
+
        PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
         mListView.setAdapter(adapter);
 
