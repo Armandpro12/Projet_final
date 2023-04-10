@@ -64,7 +64,7 @@ public class PatientInfoActivity  extends AppCompatActivity {
         for (int i = 0; i < ordonnances.size(); i++) {
 
             TextView textView = new TextView(this);
-            textView.setText((CharSequence) db.getMedication(ordonnances.get(i).getMedicationID()));
+            textView.setText(db.getMedication(ordonnances.get(i).getMedicationID()).toString());
             textView.setId(ordonnances.get(i).getId());
             textView.setPadding(10, 30 + 60 * i, 0, 0);
             textView.setTextSize(20);
