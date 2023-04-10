@@ -27,4 +27,8 @@ public class Patient extends User{
     public void setDoctor(int doctor) {
         doctorId = doctor;
     }
+
+    public String toString() {
+    	return "Patient [id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", address=" + getAddress() + ", email=" + getEmail() + ", password=" + getPassword() + ", photo=" + getPhoto() + ", doctorId=" + doctorId + "]";
+    }
 }

@@ -104,15 +104,17 @@ public class ListPatientFragment extends Fragment {
     public void displayPatient(ConstraintLayout cl) {
         DoctorDB db = new DoctorDB(ListPatientFragment.this.getContext());
         SharedPreferences stored_data = this.getActivity().getSharedPreferences(MainActivity.STORED_DATA, Context.MODE_PRIVATE);
-        int doctorId = stored_data.getInt(MainActivity.STORED_DATA, -1);
-        ArrayList<Patient> patientsList = db.getAlldoctorsPatients(doctorId);
-
-        PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
+        int doctorId = stored_data.getInt(MainActivity.IS_LOGIN, -1);
+        ArrayList<Patient> patientsList = db.getAllPatientsOfDoctor(doctorId);
+        System.out.printf("\n\n %s \n\n", patientsList.toString());
+       PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
         mListView.setAdapter(adapter);
+
 
         mListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getActivity(), PatientInfoActivity.class);
             intent.putExtra("patientId", patientsList.get(position).getId());
+            System.out.printf("\n\n %s %s \n\n", patientsList.get(position).getId() , patientsList.get(position).getFirstName());
             startActivity(intent);
         });
 

@@ -69,7 +69,7 @@ public class CreatePatientActivity extends AppCompatActivity {
             patient.setFirstName(mUsernameInput.getText().toString());
             patient.setPassword(mPasswordInput.getText().toString());
             SharedPreferences stored_data = getSharedPreferences(MainActivity.STORED_DATA, MODE_PRIVATE);
-            int doctorId = stored_data.getInt(MainActivity.STORED_DATA, -1);
+            int doctorId = stored_data.getInt(MainActivity.IS_LOGIN, -1);
             patient.setDoctor(doctorId);
             db.addPatient(patient);
 

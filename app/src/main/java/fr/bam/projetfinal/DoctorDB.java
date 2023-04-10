@@ -289,10 +289,10 @@ public class DoctorDB extends SQLiteOpenHelper {
         return doctor;
     }
 
-    public List<Patient> getAllPatients() {
+    public ArrayList<Patient> getAllPatients() {
         Log.i(TAG, "MyDatabaseHelper.getAllPatients ... ");
 
-        List<Patient>  patientList = new ArrayList<Patient>();
+        ArrayList<Patient>  patientList = new ArrayList<Patient>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_PATIENT;
 
@@ -461,15 +461,16 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getBlob(6),
                 (cursor.getInt(7))
         );
+
         // return profile
         cursor.close();
         return patient;
     }
 
-    public List<Patient> getAllPatientsOfDoctor(int idDoctor){
+    public ArrayList<Patient> getAllPatientsOfDoctor(int idDoctor){
         Log.i(TAG, "MyDatabaseHelper.getAllPatientsOfDoctor ... " + idDoctor);
 
-        List<Patient> patientList = new ArrayList<>();
+        ArrayList<Patient> patientList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PATIENT, new String[]{COLUMN_ID, COLUMN_FIRSTNAME,
@@ -477,7 +478,8 @@ public class DoctorDB extends SQLiteOpenHelper {
                 new String[]{String.valueOf(idDoctor)}, null, null, null, null);
         if (cursor.moveToFirst()){
             do{
-                Patient patient = new Patient(
+                Patient p = new Patient;
+                Patient.id=
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
@@ -487,7 +489,13 @@ public class DoctorDB extends SQLiteOpenHelper {
                         cursor.getBlob(6),
                         (cursor.getInt(7))
                 );
-                patientList.add(patient);
+
+                System.out.printf("\n\n Alain cursor.getInt(0) = " + cursor.getInt(0) + "\n");
+                System.out.printf("\n\n Alain cursor.getInt(0) = " + cursor.getInt(0) + "\n");
+                System.out.printf("\n\n Alain liste = " + p.toString() + "\n");
+                System.out.printf("\n\n Alain liste2 = " + patientList.toString() + "\n");
+                patientList.add(p);
+                System.out.printf("\n\n Alain liste3 = " + patientList.toString() + "\n");
             } while (cursor.moveToNext());
         }
         cursor.close();
