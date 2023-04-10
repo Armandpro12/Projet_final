@@ -11,7 +11,7 @@ public abstract class User {
     private String mPassword;
     private byte[] mPhoto;
 
-    public static int id;
+    public int id;
 
 
     public User(String firstName, String lastName, String address, String email, String password, byte[] photo) {
@@ -93,6 +93,10 @@ public abstract class User {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPassword() {

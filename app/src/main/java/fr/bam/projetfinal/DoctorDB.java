@@ -478,8 +478,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 new String[]{String.valueOf(idDoctor)}, null, null, null, null);
         if (cursor.moveToFirst()){
             do{
-                Patient p = new Patient;
-                Patient.id=
+                Patient p = new Patient(
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
@@ -490,7 +489,6 @@ public class DoctorDB extends SQLiteOpenHelper {
                         (cursor.getInt(7))
                 );
 
-                System.out.printf("\n\n Alain cursor.getInt(0) = " + cursor.getInt(0) + "\n");
                 System.out.printf("\n\n Alain cursor.getInt(0) = " + cursor.getInt(0) + "\n");
                 System.out.printf("\n\n Alain liste = " + p.toString() + "\n");
                 System.out.printf("\n\n Alain liste2 = " + patientList.toString() + "\n");
