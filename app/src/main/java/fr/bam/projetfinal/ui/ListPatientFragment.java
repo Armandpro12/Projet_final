@@ -79,16 +79,13 @@ public class ListPatientFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // You can call the findViewById() method here
-
-
         mAddPatientButton = view.findViewById(R.id.fragment_list_patient_addPatient_button);
         constraintLayout = view.findViewById(R.id.fragment_list_patient_constraintLayout);
         mListView = view.findViewById(R.id.fragment_list_patient_listView);
-        displayPatient(constraintLayout);
+        displayPatient();
         mAddPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,15 +98,21 @@ public class ListPatientFragment extends Fragment {
 
     }
 
-    public void displayPatient(ConstraintLayout cl) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        displayPatient();
+    }
+
+    public void displayPatient() {
         DoctorDB db = new DoctorDB(ListPatientFragment.this.getContext());
         SharedPreferences stored_data = this.getActivity().getSharedPreferences(MainActivity.STORED_DATA, Context.MODE_PRIVATE);
         int doctorId = stored_data.getInt(MainActivity.IS_LOGIN, -1);
         ArrayList<Patient> patientsList = db.getAllPatientsOfDoctor(doctorId);
-        ArrayList<Patient> allPatients = db.getAllPatients();
+
         System.out.printf("\n\n %s \n\n", patientsList.toString());
 
-       PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
+        PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
         mListView.setAdapter(adapter);
 
 
