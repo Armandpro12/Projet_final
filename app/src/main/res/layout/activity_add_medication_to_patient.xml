@@ -30,34 +30,52 @@
         android:id="@+id/add_medication_add_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="yyyy-MM-dd HH:mm:ss"
+        android:text="yyyy-MM-dd "
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_medication_add_description" />
 
-    <Button
-        android:id="@+id/add_medication_Create_ordonnace_and_date"
+    <EditText
+        android:id="@+id/add_medication_add_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Create"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_medication_add_dosage" />
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+
+        android:text="HH:MM:SS"
+        app:layout_constraintBottom_toTopOf="@+id/add_medication_add_dosage"
+        app:layout_constraintTop_toBottomOf="@+id/add_medication_add_date"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="101dp" />
 
     <EditText
         android:id="@+id/add_medication_add_dosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="dosage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_medication_add_date" />
+        app:layout_constraintTop_toBottomOf="@+id/add_medication_add_time"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/add_medication_Create_ordonnace_and_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_medication_add_dosage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

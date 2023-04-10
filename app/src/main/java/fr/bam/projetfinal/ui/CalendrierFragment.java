@@ -49,7 +49,7 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
     private String mParam2;
 
     private ArrayList<Date> localDates;
-    private LinearLayout linearLayout;
+    private LinearLayout mLinearLayout;
     MaterialCalendarView materialCalendarView;
 
     public CalendrierFragment() {
@@ -88,7 +88,7 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
         super.onViewCreated(view, savedInstanceState);
         DoctorDB doctorDB = new DoctorDB(CalendrierFragment.this.getContext());
         materialCalendarView = view.findViewById(R.id.calendarView);
-        linearLayout = view.findViewById(R.id.SVlinearlayout);
+        mLinearLayout = view.findViewById(R.id.SVlinearlayout);
         localDates = new ArrayList<>();
         SharedPreferences stored_data = this.getActivity().getSharedPreferences(MainActivity.STORED_DATA, Context.MODE_PRIVATE);
         int id = stored_data.getInt(MainActivity.IS_LOGIN, -1);
@@ -98,6 +98,7 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
 
         //calendar click listenenr
         materialCalendarView.setOnDateChangedListener((widget, date, selected) -> {
+            mLinearLayout.removeAllViews();
             System.out.println("__________date_________ :" + date);
             System.out.println("__________selected_________ :" + selected);
             //date format : YYYY-MM-DD
@@ -116,13 +117,13 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
             if (selected) {
                 ArrayList<Date> dates = doctorDB.getAllDateDates(dateStr);
                 //sout list size
-                System.out.println("__________dates_________ :" + dates.size());
+
                 for (Date date1 : dates) {
+                    System.out.println("__________dates_________ :" + dates.size());
                     Ordonnance ordonnance = doctorDB.getOrdonnance(date1.getOrdonnanceID());
                     affichageOrdonnance(date1, ordonnance);
                 }
-               // ArrayList<Date> = doctorDB.getAllDateDates(date)
-                //TODO : afficher les ordonnances de la date
+
             }
         });
         doctorDB.close();
@@ -148,6 +149,7 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
 
     public void afficherOrdonnance(ArrayList<Date> dates) {
         //date format : YYYY-MM-DD HH:MM:SS
+
         CalendarDay calendarDay = null;
         for (Date date : dates) {
             //catch interger.parseint
@@ -164,12 +166,13 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
     }
 
     private void affichageOrdonnance(Date date, Ordonnance ordonnance) {
+        LinearLayout ordonnanceLayout = new LinearLayout(this.getContext());
         DoctorDB doctorDB = new DoctorDB(CalendrierFragment.this.getContext());
         Medication medication = doctorDB.getMedication(ordonnance.getMedicationID());
         // add information LinearLayout to existing ScrollView
         LinearLayout linearLayout = new LinearLayout(this.getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         // add color indicator to left of layout
         View colorIndicator = new View(this.getContext());
@@ -213,7 +216,10 @@ public class CalendrierFragment extends androidx.fragment.app.Fragment {
         linearLayout.addView(textLayout);
 
         // add layout to existing ScrollView
-        linearLayout.addView(linearLayout);
+        mLinearLayout.addView(linearLayout);
+        TextView blankView = new TextView(this.getContext());
+        blankView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50));
+        mLinearLayout.addView(blankView);
 
     }
 

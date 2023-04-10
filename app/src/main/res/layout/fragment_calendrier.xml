@@ -19,16 +19,16 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false"
-        android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/SVlinearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        >
-
-    </LinearLayout>
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:paddingBottom="55dp">
+        <LinearLayout
+            android:id="@+id/SVlinearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

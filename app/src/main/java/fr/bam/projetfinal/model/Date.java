@@ -78,4 +78,16 @@ public class Date {
     public int getDay() {
         return Integer.parseInt(mDate.substring(8, 10));
     }
+
+    public int getSecond() {
+        return Integer.parseInt(mTime.substring(6, 8));
+    }
+
+    public int getMinute() {
+        return Integer.parseInt(mTime.substring(3, 5));
+    }
+
+    public int getHour() {
+        return Integer.parseInt(mTime.substring(0, 2));
+    }
 }
