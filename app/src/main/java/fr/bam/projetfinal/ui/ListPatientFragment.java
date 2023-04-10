@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import fr.bam.projetfinal.CreatePatientActivity;
 import fr.bam.projetfinal.DoctorDB;
 import fr.bam.projetfinal.MainActivity;
+import fr.bam.projetfinal.PatientInfoActivity;
 import fr.bam.projetfinal.R;
 import fr.bam.projetfinal.model.Patient;
+import fr.bam.projetfinal.model.PatientAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +46,8 @@ public class ListPatientFragment extends Fragment {
     private FloatingActionButton mAddPatientButton;
 
     private ConstraintLayout constraintLayout;
+
+    private ListView mListView;
 
     public ListPatientFragment() {
         // Required empty public constructor
@@ -82,6 +87,7 @@ public class ListPatientFragment extends Fragment {
 
         mAddPatientButton = view.findViewById(R.id.fragment_list_patient_addPatient_button);
         constraintLayout = view.findViewById(R.id.fragment_list_patient_constraintLayout);
+        mListView = view.findViewById(R.id.fragment_list_patient_listView);
         displayPatient(constraintLayout);
         mAddPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,30 +107,19 @@ public class ListPatientFragment extends Fragment {
         int doctorId = stored_data.getInt(MainActivity.STORED_DATA, -1);
         ArrayList<Patient> patientsList = db.getAlldoctorsPatients(doctorId);
 
-        for (int i = 0; i < patientsList.size(); i++) {
+        PatientAdapter adapter = new PatientAdapter(ListPatientFragment.this.getContext(), patientsList);
+        mListView.setAdapter(adapter);
 
-            TextView textView = new TextView(this.getContext());
-            textView.setText(patientsList.get(i).getFirstName() + " " + patientsList.get(i).getLastName());
-            textView.setId(patientsList.get(i).getId());
-            textView.setPadding(10 , 60*i , 0 , 0 );
-            textView.setTextSize(20);
-            cl.addView(textView);
+        mListView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getActivity(), PatientInfoActivity.class);
+            intent.putExtra("patientId", patientsList.get(position).getId());
+            startActivity(intent);
+        });
 
 
 
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /*
-                    Intent myI =   new Intent(DisplayProfile.this , ProfilActivity.class);
-                    myI.putExtra("id",textView.getId());
-                    startActivity(myI);
-                    */
 
-                }
-            });
 
-        }
     }
 
     @Override

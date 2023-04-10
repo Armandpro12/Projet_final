@@ -7,23 +7,23 @@ public class Date {
     private String mDate;
     private boolean mIsTaken;
 
-    private Ordonnance mOrdonnance;
+    private int mOrdonnanceID;
 
     /**
      * type of date : 'yyyy-MM-dd HH:mm:ss'
      */
-    public Date(String date, boolean isTaken, Ordonnance ordonnance) {
+    public Date(String date, boolean isTaken, int ordonnanceID) {
         mDate = date;
         mIsTaken = isTaken;
-        mOrdonnance = ordonnance;
+        mOrdonnanceID = ordonnanceID;
     }
     /**
      * type of date : 'yyyy-MM-dd HH:mm:ss'
      */
-    public Date(int id, String date, boolean isTaken, Ordonnance ordonnance) {
+    public Date(int id, String date, boolean isTaken, int ordonnanceID) {
         mDate = date;
         mIsTaken = isTaken;
-        mOrdonnance = ordonnance;
+        mOrdonnanceID = ordonnanceID;
         this.id = id;
     }
 
@@ -47,11 +47,11 @@ public class Date {
         return id;
     }
 
-    public Ordonnance getOrdonnance() {
-        return mOrdonnance;
+    public int getOrdonnanceID() {
+        return mOrdonnanceID;
     }
 
-    public void setOrdonnance(Ordonnance ordonnance) {
-        this.mOrdonnance = ordonnance;
+    public void setOrdonnance(int ordonnance) {
+        this.mOrdonnanceID = ordonnance;
     }
 }

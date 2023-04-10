@@ -134,8 +134,8 @@ public class DoctorDB extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addOrdonnance ... " + ordonnance.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_FOREIGN_PATIENT_ID, ordonnance.getPatient().getId());
-        values.put(COLUMN_FOREIGN_MEDICATION_ID, ordonnance.getMedication().getId());
+        values.put(COLUMN_FOREIGN_PATIENT_ID, ordonnance.getPatientID());
+        values.put(COLUMN_FOREIGN_MEDICATION_ID, ordonnance.getMedicationID());
         values.put(COLUMN_DESCRIPTION, ordonnance.getDescription());
         values.put(COLUMN_DOSAGE, ordonnance.getDosage());
 
@@ -149,7 +149,7 @@ public class DoctorDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, date.getDate());
         values.put(COLUMN_TAKEN, date.isTaken());
-        values.put(COLUMN_FOREIGN_ORDONNANCE_ID, date.getOrdonnance().getId());
+        values.put(COLUMN_FOREIGN_ORDONNANCE_ID, date.getOrdonnanceID());
 
         db.insert(TABLE_DATE, null, values);
         db.close();
@@ -233,8 +233,8 @@ public class DoctorDB extends SQLiteOpenHelper {
 
         Ordonnance ordonnance = new Ordonnance(
                 cursor.getInt(0),
-                getPatient(cursor.getInt(1)),
-                getMedication(cursor.getInt(2)),
+                (cursor.getInt(1)),
+                (cursor.getInt(2)),
                 cursor.getString(3),
                 cursor.getString(4)
         );
@@ -257,7 +257,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                 cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getInt(2) > 0,
-                getOrdonnance(cursor.getInt(3))
+                cursor.getInt(3)
         );
         cursor.close();
         // return profile
@@ -383,10 +383,10 @@ public class DoctorDB extends SQLiteOpenHelper {
         return medicationList;
     }
 
-    public List<Ordonnance> getAllOrdonnances(){
+    public ArrayList<Ordonnance> getAllOrdonnances(){
         Log.i(TAG, "MyDatabaseHelper.getAllOrdonnances ... ");
 
-        List<Ordonnance>  ordonnanceList = new ArrayList<Ordonnance>();
+        ArrayList<Ordonnance>  ordonnanceList = new ArrayList<Ordonnance>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_ORDONNANCE;
 
@@ -398,8 +398,8 @@ public class DoctorDB extends SQLiteOpenHelper {
             do {
                 Ordonnance ordonnance = new Ordonnance(
                         cursor.getInt(0),
-                        getPatient(cursor.getInt(1)),
-                        getMedication(cursor.getInt(2)),
+                        (cursor.getInt(1)),
+                        (cursor.getInt(2)),
                         cursor.getString(3),
                         cursor.getString(4)
                 );
@@ -429,7 +429,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getInt(2) > 0,
-                        getOrdonnance(cursor.getInt(3))
+                        (cursor.getInt(3))
                 );
                 dates.add(date);
 
@@ -599,7 +599,7 @@ public class DoctorDB extends SQLiteOpenHelper {
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getInt(2) > 0,
-                        getOrdonnance(cursor.getInt(3))
+                        (cursor.getInt(3))
                 );
                 dateList.add(date);
             } while (cursor.moveToNext());
@@ -608,5 +608,73 @@ public class DoctorDB extends SQLiteOpenHelper {
         return dateList;
     }
 
+
+    public ArrayList<Ordonnance> getAllPatientOrdonnances(int idPatient){
+        Log.i(TAG, "MyDatabaseHelper.getAllPatientOrdonnances ... " + idPatient);
+
+        ArrayList<Ordonnance> ordonnanceList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDONNANCE, new String[]{COLUMN_ID, COLUMN_FOREIGN_PATIENT_ID,
+                         COLUMN_FOREIGN_MEDICATION_ID, COLUMN_DESCRIPTION , COLUMN_DOSAGE }, COLUMN_FOREIGN_PATIENT_ID + "=?",
+                new String[]{String.valueOf(idPatient)}, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do{
+                Ordonnance ordonnance = new Ordonnance(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        (cursor.getInt(2)),
+                        cursor.getString(3),
+                        cursor.getString(4)
+                );
+                ordonnanceList.add(ordonnance);
+            } while (cursor.moveToNext());
+        }
+        return ordonnanceList;
+    }
+
+
+    public ArrayList<Date> getAllOrdonnanceDates(int idOrdonnance){
+        Log.i(TAG, "MyDatabaseHelper.getAllOrdonnanceDates ... " + idOrdonnance);
+
+        ArrayList<Date> dateList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_DATE, new String[]{COLUMN_ID, COLUMN_DATE,
+                        COLUMN_TAKEN, COLUMN_FOREIGN_ORDONNANCE_ID, COLUMN_FOREIGN_PATIENT_ID}, COLUMN_FOREIGN_ORDONNANCE_ID + "=?",
+                new String[]{String.valueOf(idOrdonnance)}, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do{
+                Date date = new Date(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getInt(2) > 0,
+                        (cursor.getInt(3))
+                );
+                dateList.add(date);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dateList;
+    }
+
+
+
+    //create a function witch return the if of a ordonnance given in parameter
+    public int getOrdonnanceId(Ordonnance ordonnance){
+        Log.i(TAG, "MyDatabaseHelper.getOrdonnanceId ... " + ordonnance.getMedicationID() + " " + ordonnance.getPatientID());
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDONNANCE, new String[]{COLUMN_ID, COLUMN_FOREIGN_PATIENT_ID,
+                        COLUMN_FOREIGN_MEDICATION_ID, COLUMN_DESCRIPTION , COLUMN_DOSAGE }, COLUMN_FOREIGN_PATIENT_ID + "=?" + " AND " + COLUMN_FOREIGN_MEDICATION_ID + "=?",
+                new String[]{String.valueOf(ordonnance.getPatientID()), String.valueOf(ordonnance.getMedicationID())}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        int id = cursor.getInt(0);
+        cursor.close();
+        return id;
+    }
 
 }

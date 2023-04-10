@@ -45,6 +45,10 @@
         <activity
             android:name=".AddMedicationToPatientActivity"
             android:exported="true" />
+        <activity
+            android:name=".PatientInfoActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
