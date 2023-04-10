@@ -52,4 +52,9 @@ public class Medication {
     public void setPhoto(byte[] photo) {
         mPhoto = photo;
     }
+
+
+    public String toString(){
+        return mName;
+    }
 }
