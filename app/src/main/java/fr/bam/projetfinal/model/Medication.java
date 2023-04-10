@@ -21,6 +21,10 @@ public class Medication {
         this.id = id;
     }
 
+    public Medication() {
+        super();
+    }
+
     public String getName() {
         return mName;
     }

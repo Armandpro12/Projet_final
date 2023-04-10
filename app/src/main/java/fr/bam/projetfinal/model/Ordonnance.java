@@ -4,8 +4,8 @@ package fr.bam.projetfinal.model;
  * the date is a String in this format : "yyyy-MM-dd"
  */
 public class Ordonnance {
-    private Patient mPatient;
-    private Medication mMedication;
+    private int mPatientID;
+    private int mMedicationID;
     private String mDosage;
 
     private String mDescription;
@@ -14,16 +14,16 @@ public class Ordonnance {
     public static int id;
 
 
-    public Ordonnance(Patient patient, Medication medication, String description, String dosage) {
-        mPatient = patient;
-        mMedication = medication;
+    public Ordonnance(int patientID, int medicationID, String description, String dosage) {
+        mPatientID = patientID;
+        mMedicationID = medicationID;
         mDosage = dosage;
         mDescription = description;
     }
 
-    public Ordonnance(int id, Patient patient, Medication medication, String description, String dosage) {
-        mPatient = patient;
-        mMedication = medication;
+    public Ordonnance(int id, int patientID, int medicationID, String description, String dosage) {
+        patientID = patientID;
+        mMedicationID = medicationID;
         mDosage = dosage;
         this.id = id;
         mDescription = description;
@@ -35,20 +35,20 @@ public class Ordonnance {
         return id;
     }
 
-    public Patient getPatient() {
-        return mPatient;
+    public int getPatientID() {
+        return mPatientID;
     }
 
-    public void setPatient(Patient patient) {
-        mPatient = patient;
+    public void setPatientID(int patient) {
+        mPatientID = patient;
     }
 
-    public Medication getMedication() {
-        return mMedication;
+    public int getMedicationID() {
+        return mMedicationID;
     }
 
-    public void setMedication(Medication medication) {
-        mMedication = medication;
+    public void setMedication(int medication) {
+        mMedicationID = medication;
     }
 
 
