@@ -63,7 +63,7 @@ public class ParametreFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        };
+        }
 
 
 
