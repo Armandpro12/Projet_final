@@ -11,7 +11,7 @@ public abstract class User {
     private String mPassword;
     private byte[] mPhoto;
 
-    public static int id;
+    public  int id;
 
 
     public User(String firstName, String lastName, String address, String email, String password, byte[] photo) {

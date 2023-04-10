@@ -34,7 +34,7 @@ public class PatientInfoActivity  extends AppCompatActivity {
         cl = findViewById(R.id.patient_info_cl);
         mFirstName = findViewById(R.id.Patient_Info_Name);
         createOrdonnanceButton = findViewById(R.id.patient_info_create_Ordonnance);
-        displayOrdonnance(cl);
+        //displayOrdonnance(cl);
 
         createOrdonnanceButton.setOnClickListener(new View.OnClickListener() {
             @Override

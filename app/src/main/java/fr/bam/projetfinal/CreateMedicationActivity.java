@@ -72,6 +72,7 @@ public class CreateMedicationActivity extends AppCompatActivity {
                 Medication medication = new Medication();
                 medication.setName(name);
                 medication.setDescription(description);
+                medication.setPhoto(new byte[0]);
                 db.addMedication(medication);
                 finish();
             }

@@ -74,7 +74,7 @@ public class AddMedicationToPatientActivity extends AppCompatActivity {
                 //get the id of this ordonnance
                 int ordonnanceID = db.getOrdonnanceId(ordonnance);
                 //add the date
-                Date d = new Date( date , false , ordonnanceID);
+                Date d = new Date( date ,"00-00-00", false , ordonnanceID);
                 db.addDate(d);
 
 

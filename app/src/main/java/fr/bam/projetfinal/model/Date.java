@@ -1,27 +1,39 @@
 package fr.bam.projetfinal.model;
 
 public class Date {
-    public static int id;
+    public  int id;
 
 
     private String mDate;
     private boolean mIsTaken;
 
+    private String mTime;
     private int mOrdonnanceID;
 
     /**
-     * type of date : 'yyyy-MM-dd HH:mm:ss'
+     * type of date : 'yyyy-MM-dd '
      */
-    public Date(String date, boolean isTaken, int ordonnanceID) {
+    public Date(String date,String time, boolean isTaken, int ordonnanceID) {
         mDate = date;
+        mTime = time;
         mIsTaken = isTaken;
         mOrdonnanceID = ordonnanceID;
     }
+
+    public String getTime() {
+        return mTime;
+    }
+
+    public void setTime(String mTime) {
+        this.mTime = mTime;
+    }
+
     /**
-     * type of date : 'yyyy-MM-dd HH:mm:ss'
+     * type of date : 'yyyy-MM-dd'
      */
-    public Date(int id, String date, boolean isTaken, int ordonnanceID) {
+    public Date(int id, String date,String time, boolean isTaken, int ordonnanceID) {
         mDate = date;
+        mTime = time;
         mIsTaken = isTaken;
         mOrdonnanceID = ordonnanceID;
         this.id = id;
@@ -43,7 +55,7 @@ public class Date {
         mIsTaken = taken;
     }
 
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 
@@ -53,5 +65,17 @@ public class Date {
 
     public void setOrdonnance(int ordonnance) {
         this.mOrdonnanceID = ordonnance;
+    }
+
+    public int getYear() {
+        return Integer.parseInt(mDate.substring(0, 4));
+    }
+
+    public int getMonth() {
+        return Integer.parseInt(mDate.substring(5, 7));
+    }
+
+    public int getDay() {
+        return Integer.parseInt(mDate.substring(8, 10));
     }
 }
