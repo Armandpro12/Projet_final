@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,9 +22,12 @@ import fr.bam.projetfinal.CreateMedicationActivity;
 import fr.bam.projetfinal.CreatePatientActivity;
 import fr.bam.projetfinal.DoctorDB;
 import fr.bam.projetfinal.MainActivity;
+import fr.bam.projetfinal.PatientInfoActivity;
 import fr.bam.projetfinal.R;
+import fr.bam.projetfinal.model.MedicamentAdapter;
 import fr.bam.projetfinal.model.Medication;
 import fr.bam.projetfinal.model.Patient;
+import fr.bam.projetfinal.model.PatientAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +46,7 @@ public class MedicamentFragment extends Fragment {
     private String mParam2;
 
     private FloatingActionButton createMedicamentButton;
+    private ListView mListView;
 
     public MedicamentFragment() {
         // Required empty public constructor
@@ -80,7 +85,8 @@ public class MedicamentFragment extends Fragment {
 
         createMedicamentButton = view.findViewById(R.id.fragment_list_Medication_addPatient_button);
         ConstraintLayout cl = view.findViewById(R.id.fragment_list_Medication_constraintLayout);
-        displayPatient(cl);
+        mListView = view.findViewById(R.id.fragment_list_Medication_listView);
+        displayMedictaion();
 
         createMedicamentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,34 +100,32 @@ public class MedicamentFragment extends Fragment {
 
     }
 
-    public void displayPatient(ConstraintLayout cl) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        displayMedictaion();
+    }
+
+    public void displayMedictaion() {
         DoctorDB db = new DoctorDB(MedicamentFragment.this.getContext());
 
-        ArrayList<Medication> MedicationsList = db.getAllMedications();
 
-        for (int i = 0; i < MedicationsList.size(); i++) {
+        ArrayList<Medication> medicationList = db.getAllMedications();
 
-            TextView textView = new TextView(this.getContext());
-            textView.setText(MedicationsList.get(i).getName());
-            textView.setId(MedicationsList.get(i).getId());
-            textView.setPadding(10, 60 * i, 0, 0);
-            textView.setTextSize(20);
-            cl.addView(textView);
+        MedicamentAdapter adapter = new MedicamentAdapter(MedicamentFragment.this.getContext(), medicationList);
+        mListView.setAdapter(adapter);
 
 
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /*
-                    Intent myI =   new Intent(DisplayProfile.this , ProfilActivity.class);
-                    myI.putExtra("id",textView.getId());
-                    startActivity(myI);
-                    */
+        mListView.setOnItemClickListener((parent, view, position, id) -> {
 
-                }
-            });
-        }
+        });
+
+
+
+
+
     }
+
 
 
     @Override
